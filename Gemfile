@@ -64,3 +64,13 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "tailwindcss-rails", "~> 4.4"
+
+gem "foreman", "~> 0.90.0"
+
+gem "devise", "~> 4.9"
+
+gem "pundit", "~> 2.5"
+
+gem "byebug", "~> 12.0"
