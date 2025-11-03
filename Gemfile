@@ -42,7 +42,9 @@ gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  gem "byebug", "~> 12.0"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false
@@ -73,4 +75,4 @@ gem "devise", "~> 4.9"
 
 gem "pundit", "~> 2.5"
 
-gem "byebug", "~> 12.0"
+gem "acts_as_paranoid", "~> 0.11.0"

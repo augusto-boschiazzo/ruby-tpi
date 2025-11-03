@@ -1,0 +1,54 @@
+es:
+  activerecord:
+    models:
+      product: Producto
+      product_category: Categoría
+
+    attributes:
+      product:
+        name: Nombre
+        description: Descripción
+        author: Autor
+        price: Precio
+        status: Estado
+        product_type: Tipo
+        product_category_id: Categoría
+        stock: Stock
+        audio: Audio
+        images: Imágenes
+        recent: Nuevo
+        used: Usado
+        vinyl: Vinilo
+        cd: CD
+
+  errors:
+    messages:
+      blank: no puede estar vacío
+
+  back:
+    products:
+      index:
+        title: Listado de productos
+        new: Nuevo producto
+      show:
+        title: Detalle del producto
+        edit: Editar
+        back: Volver
+      new:
+        title: Crear producto
+      edit:
+        title: Editar producto
+
+  actions:
+    show: Ver
+    edit: Editar
+    new: Nuevo
+    destroy: Eliminar
+    save: Guardar
+    download: Descargar
+    cancel: Cancelar
+    back: Volver al listado
+
+  common:
+    confirmation: ¿Está seguro?
+    empty_list: No hay elementos disponibles para mostrar

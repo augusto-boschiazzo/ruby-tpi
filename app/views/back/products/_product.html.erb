@@ -1,0 +1,57 @@
+<div id="<%= dom_id product %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.name") %>:</strong>
+    <%= product.name %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.description") %>:</strong>
+    <%= product.description %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.author") %>:</strong>
+    <%= product.author %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.price") %>:</strong>
+    <%= product.price %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.stock") %>:</strong>
+    <%= product.stock %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.product_type") %>:</strong>
+    <%= I18n.t("activerecord.attributes.product.#{product.product_type}") %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.product_category_id") %>:</strong>
+    <%= product.product_category.name %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.status") %>:</strong>
+    <%= I18n.t("activerecord.attributes.product.#{product.status}") %>
+  </div>
+
+  <% if product.images.attached? %>
+    <div class="mt-4">
+      <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.images") %>:</strong>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <% product.images.each do |image| %>
+          <%= image_tag image.variant(resize_to_limit: [300, 300]),
+                class: "rounded-lg shadow-md border" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if product.audio.attached? %>
+    <div class="mt-6">
+      <strong class="block font-medium mb-1"><%= I18n.t("activerecord.attributes.product.audio") %>:</strong>
+      <audio controls class="w-full">
+        <source src="<%= url_for(product.audio) %>" type="<%= product.audio.content_type %>">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+    </div>
+  <% end %>
+
+</div>
