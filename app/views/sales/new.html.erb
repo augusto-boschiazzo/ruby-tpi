@@ -1,0 +1,52 @@
+<h1>New Sale</h1>
+
+
+<%= debug @sale %>
+<%= debug @sale.item_sales %>
+<%= debug Product.all %>
+
+<%= form_with model: @sale, local: true do |f| %>
+  <div>
+    <%= f.label :sold_at, "Sale Date" %><br>
+    <%= f.datetime_select :sold_at %>
+  </div>
+
+  <div>
+    <%= f.label :customer_name, "Customer Name" %><br>
+    <%= f.text_field :customer_name %>
+  </div>
+
+  <h2>Items</h2>
+  <%= debug @sale.item_sales %>
+  <!-- <%= f.fields_for :item_sales do |item_form| %>
+    <div>
+      <%= item_form.label :product_id, "Producto" %><br>
+
+      <% if Product.any? %>
+        <%= item_form.select :product_id, options_for_select(Product.pluck(:name, :id)) %>
+      <% else %>
+        <p>No hay productos disponibles. Creá uno primero.</p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= item_form.label :quantity %><br>
+      <%= item_form.number_field :quantity %>
+    </div>
+
+    <div>
+      <%= item_form.label :unit_price %><br>
+      <%= item_form.number_field :unit_price, step: 0.01 %>
+    </div>
+  <% end %> -->
+
+
+  <div>
+    <%= f.label :total_amount %><br>
+    <%= f.number_field :total_amount, step: 0.01 %>
+  </div>
+
+  <%= f.submit "Create Sale" %>
+<% end %>
+
+<%= link_to "Back to Sales", sales_path %>

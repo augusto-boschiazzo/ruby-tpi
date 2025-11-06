@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :sales do
+    patch :cancel, on: :member
+  end
+
   scope module: "back" do
     resources :products
   end

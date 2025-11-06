@@ -1,0 +1,37 @@
+<h1>Sale Details</h1>
+
+<p><strong>Date:</strong> <%= @sale.sold_at.strftime("%d/%m/%Y %H:%M") %></p>
+<p><strong>Customer:</strong> <%= @sale.customer_name %></p>
+<!-- <p><strong>Employee:</strong> <%= @sale.employee.name %></p>  NO OLVIDARME DE DESCOMENTAR CUANDO HAYA USER-->
+<p><strong>Status:</strong> <%= @sale.cancelled_at.present? ? "Cancelled" : "Active" %></p>
+
+<h2>Items Sold</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sale.item_sales.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.unit_price) %></td>
+        <td><%= number_to_currency(item.unit_price * item.quantity) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Total Amount: <%= number_to_currency(@sale.total_amount) %></h3>
+
+<% unless @sale.cancelled_at %>
+  <%= link_to "Cancel Sale", cancel_sale_path(@sale), method: :patch, data: { confirm: "Are you sure?" } %>
+<% end %>
+
+<%= link_to "Back to Sales", sales_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_01_170017) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_06_210954) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -39,6 +39,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_01_170017) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "item_sales", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity"
+    t.integer "sale_id", null: false
+    t.decimal "unit_price"
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_item_sales_on_product_id"
+    t.index ["sale_id"], name: "index_item_sales_on_sale_id"
+  end
+
   create_table "product_categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -56,12 +67,27 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_01_170017) do
     t.integer "product_type"
     t.integer "status"
     t.integer "stock"
+    t.decimal "unit_price"
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.datetime "cancelled_at"
+    t.datetime "created_at", null: false
+    t.string "customer_name"
+    t.integer "employee_id", null: false
+    t.datetime "sold_at"
+    t.decimal "total_amount"
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_sales_on_employee_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "item_sales", "products"
+  add_foreign_key "item_sales", "sales"
   add_foreign_key "products", "product_categories"
+  add_foreign_key "sales", "employees"
 end
