@@ -1,0 +1,118 @@
+<%= form_with(model: product, class: "contents", html: { multipart: true }) do |form| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": product.errors[:name].none?, "border-red-400 focus:outline-red-600": product.errors[:name].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description %>
+    <%= form.textarea :description, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": product.errors[:description].none?, "border-red-400 focus:outline-red-600": product.errors[:description].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :author %>
+    <%= form.text_field :author, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": product.errors[:author].none?, "border-red-400 focus:outline-red-600": product.errors[:author].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": product.errors[:price].none?, "border-red-400 focus:outline-red-600": product.errors[:price].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :stock %>
+    <%= form.number_field :stock, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": product.errors[:stock].none?, "border-red-400 focus:outline-red-600": product.errors[:stock].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :product_type %>
+    <%= form.select :product_type, 
+      product_type_options, 
+      {},
+      class: [
+        "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+        { "border-gray-400 focus:outline-blue-600": product.errors[:product_type].none?,
+          "border-red-400 focus:outline-red-600": product.errors[:product_type].any? }
+      ] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :product_category_id %>
+    <%= form.select :product_category_id, 
+      ProductCategory.all.map { |pc| [pc.name, pc.id] }, 
+      {},
+      class: [
+        "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+        { "border-gray-400 focus:outline-blue-600": product.errors[:product_category_id].none?,
+          "border-red-400 focus:outline-red-600": product.errors[:product_category_id].any? }
+      ] %>
+  </div>
+
+  <div data-controller="product-form">
+    <div class="my-5">
+      <%= form.label :status %>
+      <%= form.select :status, 
+        status_options, 
+        {},
+        class: [
+          "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+          { "border-gray-400 focus:outline-blue-600": product.errors[:status].none?,
+            "border-red-400 focus:outline-red-600": product.errors[:status].any? }
+        ],
+        data: { product_form_target: "status", action: "change->product-form#toggleAudioInput" } %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :audio, class: "block font-medium text-gray-700" %>
+      <%= form.file_field :audio, 
+            accept: "audio/*", 
+            class: [
+              "block w-full mt-2 border border-gray-300 rounded-lg shadow-sm cursor-pointer focus:ring focus:ring-blue-500 disabled:cursor-not-allowed"
+            ],
+            data: { product_form_target: "audioInput"} %>
+
+      <% if product.audio.attached? %>
+        <div class="mt-3">
+          <p class="text-sm text-gray-600">Audio actual:</p>
+          <audio controls class="mt-1 w-full rounded-md shadow">
+            <source src="<%= url_for(product.audio) %>" type="<%= product.audio.content_type %>">
+            Tu navegador no soporta la reproducción de audio.
+          </audio>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :images %>
+    <%= form.file_field :images, 
+          multiple: true, 
+          direct_upload: true,
+          class: "block w-full mt-2 border border-gray-300 rounded-lg shadow-sm cursor-pointer focus:ring focus:ring-blue-500" %>
+
+    <% if product.images.attached? %>
+      <div class="mt-3 grid grid-cols-3 gap-2">
+        <% product.images.each do |image| %>
+          <%= image_tag image.variant(resize_to_limit: [150, 150]), class: "rounded-lg" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+  <div class="inline">
+    <%= save_button %>
+  </div>
+<% end %>
