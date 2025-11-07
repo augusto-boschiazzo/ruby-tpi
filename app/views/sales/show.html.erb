@@ -1,37 +1,37 @@
-<h1>Sale Details</h1>
+<h1 class="text-2xl font-bold mb-4">Detalle de Venta #<%= @sale.id %></h1>
 
-<p><strong>Date:</strong> <%= @sale.sold_at.strftime("%d/%m/%Y %H:%M") %></p>
-<p><strong>Customer:</strong> <%= @sale.customer_name %></p>
-<!-- <p><strong>Employee:</strong> <%= @sale.employee.name %></p>  NO OLVIDARME DE DESCOMENTAR CUANDO HAYA USER-->
-<p><strong>Status:</strong> <%= @sale.cancelled_at.present? ? "Cancelled" : "Active" %></p>
+<p class="mb-2"><strong>Comprador:</strong> <%= @sale.customer_name %></p>
+<p class="mb-2"><strong>Fecha:</strong> <%= @sale.sold_at.strftime("%d/%m/%Y %H:%M") if @sale.sold_at %></p>
+<p class="mb-2"><strong>Estado:</strong> <%= @sale.cancelled_at.present? ? "Cancelada" : "Activa" %></p>
 
-<h2>Items Sold</h2>
-
-<table>
-  <thead>
+<table class="min-w-full bg-white border border-gray-200 mt-4">
+  <thead class="bg-gray-100">
     <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Unit Price</th>
-      <th>Subtotal</th>
+      <th class="py-2 px-4 border">Producto</th>
+      <th class="py-2 px-4 border">Cantidad</th>
+      <th class="py-2 px-4 border">Precio Unitario</th>
+      <th class="py-2 px-4 border">Subtotal</th>
     </tr>
   </thead>
   <tbody>
-    <% @sale.item_sales.each do |item| %>
+    <% @sale.sale_details.each do |detail| %>
       <tr>
-        <td><%= item.product.name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.unit_price) %></td>
-        <td><%= number_to_currency(item.unit_price * item.quantity) %></td>
+        <td class="py-2 px-4 border"><%= detail.product.name %></td>
+        <td class="py-2 px-4 border"><%= detail.quantity %></td>
+        <td class="py-2 px-4 border">$<%= number_to_currency(detail.unit_price, unit: "", separator: ",", delimiter: ".") %></td>
+        <td class="py-2 px-4 border">$<%= number_to_currency(detail.quantity * detail.unit_price, unit: "", separator: ",", delimiter: ".") %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<h3>Total Amount: <%= number_to_currency(@sale.total_amount) %></h3>
+<p class="mt-4 text-lg font-semibold">Total: $<%= number_to_currency(@sale.total_amount, unit: "", separator: ",", delimiter: ".") %></p>
 
-<% unless @sale.cancelled_at %>
-  <%= link_to "Cancel Sale", cancel_sale_path(@sale), method: :patch, data: { confirm: "Are you sure?" } %>
+<% if @sale.cancelled_at.present? %>
+  <p class="mt-4 text-red-600 font-semibold">Esta venta fue cancelada el <%= @sale.cancelled_at.strftime("%d/%m/%Y %H:%M") %></p>
+<% else %>
+  <%= button_to "Cancelar venta", cancel_sale_path(@sale), method: :patch, data: { confirm: "¿Estás seguro que querés cancelar esta venta?" }, class: "mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
 <% end %>
 
-<%= link_to "Back to Sales", sales_path %>
+<%= link_to "Volver al listado", sales_path, class: "mt-6 inline-block text-blue-600 hover:underline" %>
+

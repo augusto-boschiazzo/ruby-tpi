@@ -11,27 +11,30 @@ class SalesController < ApplicationController
   end
 
   def create
-    @sale = Sale.new(sale_params)
-    @sale.employee = current_user # Supongo que el usuario actual es el empleado que hizo la venta
-    ActiveRecord::Base.transaction do
-      validate_stock! # Valido si hay stock disponible del producto
-
-      if @sale.save
-        update_stock!
-        redirect_to @sale, notice: "Sale successfully created."
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
+    @sale = Sale.create_with_stock!(sale_params, current_user)
+    redirect_to @sale, notice: "Venta creada con éxito."
+  rescue ActiveRecord::Rollback => e
+    flash.now[:alert] = e.message
+    @sale ||= Sale.new(sale_params)
+    render :new, status: :unprocessable_entity
   end
 
   def show
+    @sale = Sale.includes(sale_details: :product).find(params[:id])
   end
 
   def cancel
-    @sale.update(cancelled_at: Time.current)
-    restore_stock!
-    redirect_to sales_path, notice: "Sale cancelled and stock restored."
+    @sale = Sale.find(params[:id])
+
+    if @sale.cancelled_at.nil?
+      @sale.restore_stock!
+      @sale.update(cancelled_at: Time.current)
+      flash[:notice] = "Venta cancelada y stock restaurado."
+    else
+      flash[:alert] = "La venta ya estaba cancelada."
+    end
+
+    redirect_to sale_path(@sale)
   end
 
   private
@@ -45,25 +48,5 @@ class SalesController < ApplicationController
       :sold_at, :total_amount, :customer_name,
       item_sales_attributes: [ :product_id, :quantity, :unit_price, :_destroy ]
     )
-  end
-
-  def update_stock!
-    @sale.item_sales.each do |item|
-      item.product.decrement!(:stock, item.quantity)
-    end
-  end
-
-  def restore_stock!
-    @sale.item_sales.each do |item|
-      item.product.increment!(:stock, item.quantity)
-    end
-  end
-
-  def validate_stock!
-    @sale.item_sales.each do |item|
-      if item.product.stock < item.quantity
-        raise ActiveRecord::Rollback, "Not enough stock for #{item.product.name}"
-      end
-    end
   end
 end
