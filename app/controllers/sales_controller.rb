@@ -20,14 +20,11 @@ class SalesController < ApplicationController
   end
 
   def show
-    @sale = Sale.includes(sale_details: :product).find(params[:id])
+    # Lo dejo vacio por el before_action
   end
 
   def cancel
-    @sale = Sale.find(params[:id])
-
     if @sale.cancelled_at.nil?
-      @sale.restore_stock!
       @sale.update(cancelled_at: Time.current)
       flash[:notice] = "Venta cancelada y stock restaurado."
     else
