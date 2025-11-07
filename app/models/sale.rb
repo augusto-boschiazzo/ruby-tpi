@@ -6,18 +6,23 @@ class Sale < ApplicationRecord
   accepts_nested_attributes_for :item_sales, allow_destroy: true
 
   validates :sold_at, :total_amount, presence: true
+  validate :must_have_at_least_one_item
+  validate :validate_stock_levels
 
   def self.create_with_stock!(params, employee)
     sale = new(params)
     sale.employee = employee
     sale.sold_at = Time.current
 
+    unless sale.valid?
+      raise ActiveRecord::Rollback, sale.errors.full_messages.join(", ")
+    end
+
     transaction do
       total = 0
       sale.item_sales.each do |item|
         product = item.product
         new_stock = product.stock - item.quantity
-        # raise ActiveRecord::Rollback, "Sin stock suficiente para #{product.name}" if new_stock < 0
         product.update!(stock: new_stock)
         total += item.unit_price * item.quantity
       end
@@ -32,6 +37,22 @@ class Sale < ApplicationRecord
   after_update :restore_stock_if_cancelled
 
   private
+
+  def must_have_at_least_one_item
+    if item_sales.reject(&:marked_for_destruction?).empty?
+      errors.add(:base, "La venta debe tener al menos un producto.")
+    end
+  end
+
+  def validate_stock_levels
+    item_sales.each do |item|
+      next if item.marked_for_destruction? || item.product.nil?
+
+      if item.product.stock < item.quantity
+        errors.add(:base, "No hay stock suficiente para #{item.product.name}")
+      end
+    end
+  end
 
   def restore_stock_if_cancelled
     if saved_change_to_cancelled_at? && cancelled_at.present?
