@@ -1,5 +1,6 @@
 class Sale < ApplicationRecord
   # belongs_to :employee, class_name: "User" # Descomentar cuando tengas el modelo User
+  belongs_to :client
   has_many :item_sales, dependent: :destroy
   has_many :products, through: :item_sales
 
@@ -10,8 +11,16 @@ class Sale < ApplicationRecord
   validate :validate_stock_levels
 
   def self.create_with_stock!(params, employee)
+    dni = params.delete(:client_dni)
+    name = params.delete(:client_name)
+
+    client = Client.find_or_initialize_by(dni: dni)
+    client.name = name if client.new_record?
+    client.save!
+
     sale = new(params)
     sale.employee = employee
+    sale.client = client
     sale.sold_at = Time.current
 
     unless sale.valid?

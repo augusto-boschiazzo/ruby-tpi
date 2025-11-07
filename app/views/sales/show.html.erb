@@ -1,6 +1,6 @@
 <h1 class="text-2xl font-bold mb-4">Detalle de Venta #<%= @sale.id %></h1>
 
-<p class="mb-2"><strong>Comprador:</strong> <%= @sale.customer_name %></p>
+<p class="mb-2"><strong>Cliente:</strong> <%= @sale.client.name %> (DNI: <%= @sale.client.dni %>)</p>
 <p class="mb-2"><strong>Fecha:</strong> <%= @sale.sold_at.strftime("%d/%m/%Y %H:%M") if @sale.sold_at %></p>
 <p class="mb-2"><strong>Estado:</strong> <%= @sale.cancelled_at.present? ? "Cancelada" : "Activa" %></p>
 

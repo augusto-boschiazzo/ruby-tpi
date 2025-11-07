@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_06_210954) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_07_213445) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -37,6 +37,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_06_210954) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "dni"
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.index ["dni"], name: "index_clients_on_dni", unique: true
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
   end
 
   create_table "item_sales", force: :cascade do |t|
@@ -75,13 +89,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_06_210954) do
 
   create_table "sales", force: :cascade do |t|
     t.datetime "cancelled_at"
+    t.integer "client_id", null: false
     t.datetime "created_at", null: false
     t.string "customer_name"
-    t.integer "employee_id", null: false
     t.datetime "sold_at"
     t.decimal "total_amount"
     t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_sales_on_employee_id"
+    t.index ["client_id"], name: "index_sales_on_client_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -89,5 +103,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_06_210954) do
   add_foreign_key "item_sales", "products"
   add_foreign_key "item_sales", "sales"
   add_foreign_key "products", "product_categories"
-  add_foreign_key "sales", "employees"
+  add_foreign_key "sales", "clients"
 end

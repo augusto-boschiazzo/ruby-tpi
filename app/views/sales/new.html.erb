@@ -14,8 +14,13 @@
 <%= form_with model: @sale, local: true, class: "space-y-6" do |f| %>
 
   <div>
-    <%= f.label :customer_name, "Cliente" %>
-    <%= f.text_field :customer_name, class: "border rounded p-2 w-full" %>
+    <%= f.label :client_dni, "DNI del cliente" %>
+    <%= f.text_field :client_dni, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <div>
+    <%= f.label :client_name, "Nombre del cliente" %>
+    <%= f.text_field :client_name, class: "border rounded p-2 w-full" %>
   </div>
 
   <h2 class="text-lg font-bold">Items</h2>
