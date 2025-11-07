@@ -1,0 +1,23 @@
+<div class="p-4 border rounded bg-gray-50 space-y-3 item-block">
+  <div class="space-y-1">
+    <%= f.label :product_id, "Producto", class: "font-medium" %>
+    <%= f.select :product_id, Product.pluck(:name, :id), {}, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <div class="space-y-1">
+    <%= f.label :quantity, "Cantidad", class: "font-medium" %>
+    <%= f.number_field :quantity, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <div class="space-y-1">
+    <%= f.label :unit_price, "Precio unitario ($)", class: "font-medium" %>
+    <%= f.number_field :unit_price, step: 0.01, class: "border rounded p-2 w-full" %>
+  </div>
+
+  <button type="button" class="remove-item bg-red-600 text-white px-2 py-1 rounded">
+    Quitar
+  </button>
+
+  <%= f.hidden_field :_destroy %>
+</div>
+

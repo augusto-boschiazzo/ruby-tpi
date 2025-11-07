@@ -1,52 +1,40 @@
-<h1>New Sale</h1>
+<h1>Nueva Venta</h1>
 
+<%= form_with model: @sale, local: true, class: "space-y-6" do |f| %>
 
-<%= debug @sale %>
-<%= debug @sale.item_sales %>
-<%= debug Product.all %>
-
-<%= form_with model: @sale, local: true do |f| %>
   <div>
-    <%= f.label :sold_at, "Sale Date" %><br>
-    <%= f.datetime_select :sold_at %>
+    <%= f.label :sold_at, "Fecha de venta" %>
+    <%= f.date_field :sold_at, class: "border rounded p-2 w-full" %>
   </div>
 
   <div>
-    <%= f.label :customer_name, "Customer Name" %><br>
-    <%= f.text_field :customer_name %>
+    <%= f.label :customer_name, "Cliente" %>
+    <%= f.text_field :customer_name, class: "border rounded p-2 w-full" %>
   </div>
 
-  <h2>Items</h2>
-  <%= debug @sale.item_sales %>
-  <!-- <%= f.fields_for :item_sales do |item_form| %>
-    <div>
-      <%= item_form.label :product_id, "Producto" %><br>
+  <h2 class="text-lg font-bold">Items</h2>
 
-      <% if Product.any? %>
-        <%= item_form.select :product_id, options_for_select(Product.pluck(:name, :id)) %>
-      <% else %>
-        <p>No hay productos disponibles. Creá uno primero.</p>
-      <% end %>
-    </div>
+  <div id="items-container" class="space-y-4">
+    <%= f.fields_for :item_sales do |item_form| %>
+      <%= render "item_fields", f: item_form %>
+    <% end %>
+  </div>
 
-    <div>
-      <%= item_form.label :quantity %><br>
-      <%= item_form.number_field :quantity %>
-    </div>
+  <button type="button" id="add-item" class="bg-blue-600 text-white px-3 py-1 rounded">
+    Agregar producto
+  </button>
 
-    <div>
-      <%= item_form.label :unit_price %><br>
-      <%= item_form.number_field :unit_price, step: 0.01 %>
-    </div>
-  <% end %> -->
-
+  <div id="item-template" class="hidden">
+    <%= f.fields_for :item_sales, ItemSale.new, child_index: "NEW_RECORD" do |item_form| %>
+      <%= render "item_fields", f: item_form %>
+    <% end %>
+  </div>
 
   <div>
-    <%= f.label :total_amount %><br>
-    <%= f.number_field :total_amount, step: 0.01 %>
+    <%= f.label :total_amount, "Total" %>
+    <%= f.number_field :total_amount, step: 0.01, class: "border rounded p-2 w-full" %>
   </div>
 
-  <%= f.submit "Create Sale" %>
+  <%= f.submit "Crear Venta", class: "bg-green-600 text-white px-4 py-2 rounded" %>
+
 <% end %>
-
-<%= link_to "Back to Sales", sales_path %>
