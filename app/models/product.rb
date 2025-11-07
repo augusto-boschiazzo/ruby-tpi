@@ -10,6 +10,15 @@ class Product < ApplicationRecord
   enum :product_type, [ :vinyl, :cd ]
 
   validates :name, presence: true, uniqueness: true
+  validates :stock,
+            numericality: { greater_than_or_equal_to: 0 },
+            presence: true,
+            if: -> { recent? }
+
+  validates :stock,
+            absence: true,
+            if: -> { used? }
+
   validate :audio_only_for_used
 
   before_destroy :reset_stock
