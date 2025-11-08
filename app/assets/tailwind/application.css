@@ -4,14 +4,11 @@
     --font-momo: "Momo Trust Display", sans-serif;
     --background: #f3f4f6;
     --foreground: #111827;
-    --accent: #5edc1;
+    --accent: #76cd26;
 }
 
 body {
     font-family: var(--font-momo);
     background-color: var(--background);
-}
-
-a {
-    color: var(--accent);
+    color: var(--foreground);
 }

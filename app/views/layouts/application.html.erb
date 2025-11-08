@@ -28,9 +28,21 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <p class="notice absolute top-0"><%= notice %></p>
+    <p class="alert absolute top-0"><%= alert %></p>
+    <header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-10">
+      <%= link_to "Store", root_path, class: "text-2xl font-bold text-[var(--accent)]" %>
+      <nav class="space-x-4">
+        <% if user_signed_in? %>
+          <span>Signed in as <%= current_user.email %></span>
+          <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-[var(--accent)]" %>
+        <% else %>
+          <%= link_to "Login", new_user_session_path, class: "text-[var(--accent)]" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "text-[var(--accent)]" %>
+        <% end %>
+      </nav>
+    </header>
+    <main class="container mx-auto px-5 flex">
       <%= yield %>
     </main>
   </body>
