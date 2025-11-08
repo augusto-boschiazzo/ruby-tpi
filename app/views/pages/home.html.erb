@@ -1,6 +1,6 @@
 
 <div>
-    <h1>Welcome</h1>
+    <h1 >Welcome</h1>
     <% if user_signed_in? %>
         <p>Username: <%= current_user.email if user_signed_in? %></p>
         <%= button_to "Logout", destroy_user_session_path, method: :delete %>
