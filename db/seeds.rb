@@ -16,7 +16,7 @@ regg   = ProductCategory.find_or_create_by!(name: 'Reggae')
 clasic = ProductCategory.find_or_create_by!(name: 'Clásica')
 rock   = ProductCategory.find_or_create_by!(name: 'Rock')
 
-Product.create!([
+[
   {
     name: "Survival",
     description: "un cd de bob marley",
@@ -47,7 +47,17 @@ Product.create!([
     product_category: rock,
     status: "recent"
   }
-])
+].each do |attrs|
+  Product.find_or_create_by!(name: attrs[:name]) do |product|
+    product.description       = attrs[:description]
+    product.author            = attrs[:author]
+    product.price             = attrs[:price]
+    product.stock             = attrs[:stock]
+    product.product_type      = attrs[:product_type]
+    product.product_category  = attrs[:product_category]
+    product.status            = attrs[:status]
+  end
+end
 
 [
   { name: "Ana Martínez", dni: "12345678", email: "ana.martinez@example.com" },
@@ -62,7 +72,7 @@ Product.create!([
   { name: "Federico Sosa", dni: "01234567", email: "federico.sosa@example.com" }
 ].each do |attrs|
   Client.find_or_create_by!(dni: attrs[:dni]) do |client|
-    client.name = attrs[:name]
+    client.name  = attrs[:name]
     client.email = attrs[:email]
   end
 end

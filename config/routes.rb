@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     patch :cancel, on: :member
   end
 
+
   devise_for :users
 
   scope module: "back" do

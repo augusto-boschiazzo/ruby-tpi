@@ -8,6 +8,7 @@ class Sale < ApplicationRecord
   before_validation :calculate_total_amount
   before_validation :set_sold_at, on: :create
 
+  accepts_nested_attributes_for :client
   accepts_nested_attributes_for :item_sales, allow_destroy: true
   validates_associated :item_sales
   validates :sold_at, :total_amount, presence: true

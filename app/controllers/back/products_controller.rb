@@ -8,6 +8,10 @@ class Back::ProductsController < ApplicationController
 
   # GET /products/1 or /products/1.json
   def show
+    @product = Product.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @product.slice(:id, :price) }
+    end
   end
 
   # GET /products/new
