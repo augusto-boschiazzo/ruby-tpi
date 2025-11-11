@@ -3,6 +3,10 @@ class Product < ApplicationRecord
 
   belongs_to :product_category
 
+  # Para item_sales
+  has_many :item_sales
+  has_many :sales, through: :item_sales
+
   has_one_attached :audio
   has_many_attached :images
 
