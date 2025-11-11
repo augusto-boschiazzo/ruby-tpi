@@ -11,11 +11,6 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :sold_at %>
-    <%= form.datetime_field :sold_at, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
     <%= form.label :client_id, "Cliente" %>
     <%= form.collection_select :client_id, Client.all, :id, :name, { prompt: "Seleccionar cliente" }, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>

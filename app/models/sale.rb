@@ -6,6 +6,7 @@ class Sale < ApplicationRecord
   has_many :products, through: :item_sales
 
   before_validation :calculate_total_amount
+  before_validation :set_sold_at, on: :create
 
   accepts_nested_attributes_for :item_sales, allow_destroy: true
   validates_associated :item_sales
@@ -17,8 +18,12 @@ class Sale < ApplicationRecord
 
   private
 
+  def set_sold_at
+    self.sold_at ||= Time.current
+  end
+
   def calculate_total_amount
-  self.total_amount = item_sales.map { |item| item.unit_price.to_f * item.quantity.to_i }.sum
+    self.total_amount = item_sales.map { |item| item.unit_price.to_f * item.quantity.to_i }.sum
   end
 
   def cancel!
