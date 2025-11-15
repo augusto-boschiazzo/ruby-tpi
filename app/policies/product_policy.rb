@@ -1,12 +1,29 @@
-class ProductPolicy
-    attr_reader :user, :product
-    
-    def initialize(user, product)
-        @user = user
-        @product = product
-    end
+class PostPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
+  def show?
+    index?
+  end
+
+  def create?
+    index?
+  end
 
   def new?
-    user && user.admin?
+    create?
+  end
+
+  def update?
+    create?
+  end
+
+  def edit?
+    update?
+  end
+
+  def destroy?
+    update?
   end
 end
