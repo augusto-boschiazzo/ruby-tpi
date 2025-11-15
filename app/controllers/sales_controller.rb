@@ -1,5 +1,4 @@
-class SalesController < ApplicationController
-  before_action :authenticate_user!
+class SalesController < BackController
   before_action :set_sale, only: %i[ show ]
 
   def new
@@ -46,7 +45,7 @@ class SalesController < ApplicationController
   end
 
   def invoice
-    @sale = Sale.find(params[:id])
+    @sale = Sale.includes(:client, item_sales: :product).find(params[:id])
     respond_to do |format|
       format.html
       format.pdf do
