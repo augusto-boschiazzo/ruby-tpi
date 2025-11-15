@@ -79,7 +79,7 @@ gem "pundit", "~> 2.5"
 
 gem "acts_as_paranoid", "~> 0.11.0"
 
-#Para las facturas de las ventas
+# Para las facturas de las ventas
 gem "wicked_pdf"
 
 gem "wkhtmltopdf-binary"
@@ -87,4 +87,4 @@ gem "wkhtmltopdf-binary"
 gem "view_component", "~> 4.1"
 
 # Paginación
-gem 'kaminari'
+gem "kaminari"

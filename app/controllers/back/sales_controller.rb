@@ -1,4 +1,4 @@
-class SalesController < BackController
+class Back::SalesController < BackController
   before_action :set_sale, only: %i[ show ]
 
   def new
