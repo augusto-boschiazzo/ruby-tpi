@@ -48,12 +48,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_11_162035) do
     t.index ["dni"], name: "index_clients_on_dni", unique: true
   end
 
-  create_table "employees", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "name"
-    t.datetime "updated_at", null: false
-  end
-
   create_table "item_sales", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "product_id", null: false
@@ -82,7 +76,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_11_162035) do
     t.integer "product_type"
     t.integer "status"
     t.integer "stock"
-    t.decimal "unit_price"
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
