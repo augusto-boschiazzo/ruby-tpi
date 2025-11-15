@@ -82,7 +82,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_15_161934) do
   end
 
   create_table "sales", force: :cascade do |t|
-    t.datetime "cancelled_at" #No lo pase cuando se me corrompio el archivo
+    t.datetime "cancelled_at"
     t.integer "client_id", null: false
     t.datetime "created_at", null: false
     t.datetime "sold_at"

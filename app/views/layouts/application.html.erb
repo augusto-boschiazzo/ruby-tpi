@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title><%= content_for(:title) || "Store" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,14 +26,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap" rel="stylesheet">
-  </head>
+</head>
 
-  <body>
+<body>
     <p class="notice absolute top-0 w-full text-center"><%= notice %></p>
     <p class="alert absolute top-0 w-full text-center"><%= alert %></p>
     <%= render TopbarComponent.new(user: current_user) %>
-    <main class="container mx-auto px-5 flex">
-      <%= yield %>
+    <main class="container mx-auto px-5 flex py-12 flex-col justify-center items-center">
+        <%= yield %>
     </main>
-  </body>
+</body>
+
 </html>

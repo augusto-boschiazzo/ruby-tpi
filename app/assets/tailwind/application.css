@@ -12,3 +12,13 @@ body {
     background-color: var(--background);
     color: var(--foreground);
 }
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    border: 1px solid rgb(156, 159, 163);
+    padding: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 9999px;
+}
