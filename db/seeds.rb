@@ -22,7 +22,6 @@ rock   = ProductCategory.find_or_create_by!(name: 'Rock')
     description: "un cd de bob marley",
     author: "bob marley",
     price: 20,
-    stock: 3,
     product_type: "cd",
     product_category: regg,
     status: "used"
