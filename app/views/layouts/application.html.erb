@@ -21,10 +21,17 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <p class="notice absolute top-0 w-full text-center"><%= notice %></p>
+    <p class="alert absolute top-0 w-full text-center"><%= alert %></p>
+    <%= render TopbarComponent.new(user: current_user) %>
+    <main class="container mx-auto px-5 flex">
       <%= yield %>
     </main>
   </body>
