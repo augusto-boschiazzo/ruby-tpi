@@ -30,7 +30,7 @@
   <body>
     <p class="notice absolute top-0"><%= notice %></p>
     <p class="alert absolute top-0"><%= alert %></p>
-    <header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-10">
+    <header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-10 bg-white shadow">
       <%= link_to "Store", root_path, class: "text-2xl font-bold text-[var(--accent)]" %>
       <nav class="space-x-4">
         <% if user_signed_in? %>
@@ -42,7 +42,9 @@
         <% end %>
       </nav>
     </header>
-    <main class="container mx-auto px-5 flex">
+
+    <!-- Con esto el contenido de otras views no debería quedar abajo -->
+    <main class="container mx-auto px-5 flex pt-16">
       <%= yield %>
     </main>
   </body>

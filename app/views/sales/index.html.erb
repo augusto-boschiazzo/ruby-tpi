@@ -1,7 +1,11 @@
 <% content_for :title, "Listado de ventas" %>
 
 <div class="w-full">
-  <h1 class="text-3xl font-bold mb-4">Ventas realizadas</h1>
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-3xl font-bold">Ventas realizadas</h1>
+    <%= link_to "Registrar venta", new_sale_path,
+        class: "bg-blue-600 hover:bg-blue-500 text-white font-medium px-4 py-2 rounded-md" %>
+  </div>
 
   <% if @sales.empty? %>
     <p class="text-gray-500">No hay ventas registradas.</p>
