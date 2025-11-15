@@ -12,19 +12,17 @@ class Sale < ApplicationRecord
   accepts_nested_attributes_for :item_sales, allow_destroy: true
   validates_associated :item_sales
   validates :sold_at, :total_amount, presence: true
+  validate :must_have_items
 
   after_create :discount_stock!
 
   scope :active, -> { where(cancelled_at: nil) }
 
-  private
-
-  def set_sold_at
-    self.sold_at ||= Time.current
-  end
-
-  def calculate_total_amount
-    self.total_amount = item_sales.map { |item| item.unit_price.to_f * item.quantity.to_i }.sum
+  # Validar que la venta tenga almenos un item
+  def must_have_items
+    if item_sales.empty?
+      errors.add(:base, "La venta debe tener al menos un producto")
+    end
   end
 
   def cancel!
@@ -34,6 +32,16 @@ class Sale < ApplicationRecord
       update!(cancelled_at: Time.current)
       restore_stock!
     end
+  end
+
+  private
+
+  def set_sold_at
+    self.sold_at ||= Time.current
+  end
+
+  def calculate_total_amount
+    self.total_amount = item_sales.map { |item| item.unit_price.to_f * item.quantity.to_i }.sum
   end
 
   def restore_stock!

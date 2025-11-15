@@ -76,3 +76,40 @@ end
     client.email = attrs[:email]
   end
 end
+
+users = [
+  {
+    name: "Admin",
+    last_name: "Principal",
+    username: "admin",
+    email: "admin@example.com",
+    role: :admin,
+    password: "password123"
+  },
+  {
+    name: "María",
+    last_name: "García",
+    username: "manager1",
+    email: "manager@example.com",
+    role: :manager,
+    password: "password123"
+  },
+  {
+    name: "Juan",
+    last_name: "Pérez",
+    username: "employee1",
+    email: "employee@example.com",
+    role: :employee,
+    password: "password123"
+  }
+]
+
+users.each do |attrs|
+  User.find_or_create_by!(email: attrs[:email]) do |user|
+    user.name      = attrs[:name]
+    user.last_name = attrs[:last_name]
+    user.username  = attrs[:username]
+    user.role      = attrs[:role]
+    user.password  = attrs[:password]
+  end
+end
