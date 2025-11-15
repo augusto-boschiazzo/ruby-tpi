@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
+  resources :sales, only: [ :index, :show, :new, :create ] do
+    patch :cancel, on: :member
+    get :invoice, on: :member
+  end
+
+
   devise_for :users
+
   scope module: "back" do
     resources :products
   end
@@ -15,5 +22,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "pages#home"
-
 end

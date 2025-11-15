@@ -1,0 +1,45 @@
+<% content_for :title, "Listado de ventas" %>
+
+<div class="w-full">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-3xl font-bold">Ventas realizadas</h1>
+    <%= link_to "Registrar venta", new_sale_path,
+        class: "bg-blue-600 hover:bg-blue-500 text-white font-medium px-4 py-2 rounded-md" %>
+  </div>
+
+  <% if @sales.empty? %>
+    <p class="text-gray-500">No hay ventas registradas.</p>
+  <% else %>
+    <table class="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left">Cliente</th>
+          <th class="px-4 py-2 text-left">Fecha</th>
+          <th class="px-4 py-2 text-left">Total</th>
+          <th class="px-4 py-2 text-left">Estado</th>
+          <th class="px-4 py-2 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sales.each do |sale| %>
+          <tr class="border-t">
+            <td class="px-4 py-2"><%= sale.client&.name || "—" %></td>
+            <td class="px-4 py-2"><%= l(sale.sold_at, format: :short) if sale.sold_at %></td>
+            <td class="px-4 py-2"><%= number_to_currency(sale.total_amount) %></td>
+            <td class="px-4 py-2">
+              <% if sale.cancelled_at.present? %>
+                <span class="text-red-600 font-medium">Cancelada</span>
+              <% else %>
+                <span class="text-green-600 font-medium">Activa</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-2">
+              <%= link_to "Ver detalle", sale_path(sale),
+                  class: "text-blue-600 hover:underline font-medium" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

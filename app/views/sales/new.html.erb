@@ -1,0 +1,10 @@
+<% content_for :title, "Nueva venta" %>
+
+<div class="md:w-2/3 w-full">
+  <h1 class="text-3xl font-bold mb-4">Registrar nueva venta</h1>
+
+  <%= render "form", sale: @sale %>
+
+  <%= link_to "Volver al listado", sales_path,
+      class: "inline-block mt-4 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 font-medium" %>
+</div>
