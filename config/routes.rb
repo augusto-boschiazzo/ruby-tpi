@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :sales, only: [ :index, :show, :new, :create ] do
     patch :cancel, on: :member
+    get :invoice, on: :member
   end
 
 

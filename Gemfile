@@ -76,3 +76,7 @@ gem "devise", "~> 4.9"
 gem "pundit", "~> 2.5"
 
 gem "acts_as_paranoid", "~> 0.11.0"
+
+#Para las facturas de las ventas
+gem "wicked_pdf"
+gem "wkhtmltopdf-binary"

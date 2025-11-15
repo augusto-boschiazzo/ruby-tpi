@@ -12,9 +12,6 @@ class SalesController < ApplicationController
     @sales = Sale.includes(:client).order(sold_at: :desc)
   end
 
-  def show
-  end
-
   def create
     client_attrs = sale_params[:client_attributes]
     dni = client_attrs[:dni]
@@ -42,12 +39,24 @@ class SalesController < ApplicationController
     end
   end
 
-
-
   def cancel
     @sale = Sale.find(params[:id])
     @sale.cancel!
     redirect_to @sale, notice: "Venta cancelada y stock restaurado."
+  end
+
+  def invoice
+    @sale = Sale.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "invoice_#{@sale.id}",
+              template: "sales/invoice",
+              layout: "pdf",
+              formats: [ :html ], # Sin esto rails lo intenta renderizar como pdf directamente y falla
+              encoding: "UTF-8"
+      end
+    end
   end
 
   private
