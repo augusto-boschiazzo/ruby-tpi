@@ -74,7 +74,11 @@
       <span class="inline-block px-3.5 py-2.5 text-sm text-red-600 font-medium">Venta cancelada</span>
     <% end %>
 
-    <%= link_to "Descargar factura (PDF)",
-            invoice_sale_path(@sale, format: :pdf),
-            class: "btn btn-primary" %>
+    <% if @sale.cancelled_at.present? %>
+      <p class="text-red-600 font-semibold">Esta venta fue cancelada. No se puede generar factura.</p>
+    <% else %>
+      <%= link_to "Descargar factura (PDF)",
+              invoice_sale_path(@sale, format: :pdf),
+              class: "btn btn-primary" %>
+    <% end %>
 </div>
