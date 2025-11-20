@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :reports, only: [] do
+    collection do
+      get :sales_summary
+      get :top_products
+      get :sales_by_employee
+    end
+  end
   resources :sales, only: [ :index, :show, :new, :create ] do
     patch :cancel, on: :member
     get :invoice, on: :member

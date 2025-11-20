@@ -1,0 +1,20 @@
+<h1 class="text-2xl font-bold mb-4">Reporte de ventas por mes</h1>
+
+<table class="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden">
+  <thead class="bg-gray-100">
+    <tr>
+      <th class="px-4 py-2 text-left">Mes</th>
+      <th class="px-4 py-2 text-left">Cantidad de ventas</th>
+      <th class="px-4 py-2 text-left">Total facturado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales_by_month.each do |month, count| %>
+      <tr class="border-t">
+        <td class="px-4 py-2"><%= month %></td>
+        <td class="px-4 py-2"><%= count %></td>
+        <td class="px-4 py-2"><%= number_to_currency(@amount_by_month[month]) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

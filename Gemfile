@@ -87,3 +87,7 @@ gem "view_component", "~> 4.1"
 #Paginacion
 gem "kaminari"
 gem "kaminari-tailwind", "~> 0.1.0"
+
+#Permite agrupar por fechas sin complicarse con sql
+gem "groupdate"
+
