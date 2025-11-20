@@ -8,7 +8,7 @@ class SalesController < BackController
   end
 
   def index
-    @sales = Sale.includes(:client).order(sold_at: :desc)
+    @sales = Sale.includes(:client).order(sold_at: :desc).page(params[:page]).per(10) # Para la paginacion
   end
 
   def create

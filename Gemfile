@@ -83,3 +83,7 @@ gem "wicked_pdf"
 gem "wkhtmltopdf-binary"
 
 gem "view_component", "~> 4.1"
+
+#Paginacion
+gem "kaminari"
+gem "kaminari-tailwind", "~> 0.1.0"
