@@ -91,3 +91,6 @@ gem "kaminari-tailwind", "~> 0.1.0"
 #Permite agrupar por fechas sin complicarse con sql
 gem "groupdate"
 
+#Sirve para hacer graficos
+gem "chartkick"
+

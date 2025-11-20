@@ -1,6 +1,6 @@
 <h1 class="text-2xl font-bold mb-4">Reporte de ventas por mes</h1>
 
-<table class="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden">
+<table class="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden mb-6">
   <thead class="bg-gray-100">
     <tr>
       <th class="px-4 py-2 text-left">Mes</th>
@@ -18,3 +18,12 @@
     <% end %>
   </tbody>
 </table>
+
+<div class="w-full mb-8">
+  <%= line_chart @sales_by_month, xtitle: "Mes", ytitle: "Cantidad de ventas" %>
+</div>
+
+<div class="w-full">
+  <%= column_chart @amount_by_month, xtitle: "Mes", ytitle: "Total facturado" %>
+</div>
+
