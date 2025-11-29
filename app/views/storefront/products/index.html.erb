@@ -1,0 +1,75 @@
+<h1 class="text-2xl font-bold mb-6">Discos disponibles</h1>
+
+<div class="flex gap-8">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-gray-100 p-4 rounded-xl">
+
+    <!-- ACCORDEON: Categorías -->
+    <details class="mb-4" <%= "open" if params[:categories].present? %>>
+        <summary class="cursor-pointer text-lg font-semibold">Categorías</summary>
+
+        <div class="mt-2 ml-2 space-y-1">
+            <% ProductCategory.all.each do |cat| %>
+
+            <% active = active_filter?(:categories, cat.id) %>
+
+            <%= link_to cat.name,
+                    storefront_products_path(toggle_filter(:categories, cat.id)),
+                    class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+            <% end %>
+        </div>
+    </details>
+
+
+    <!-- TIPOS -->
+    <details class="mb-4" <%= "open" if params[:types].present? %>>
+      <summary class="cursor-pointer text-lg font-semibold">Tipos</summary>
+
+      <div class="mt-2 ml-2 space-y-1">
+        <% Product.product_types.each do |value, _| %>
+          <% active = active_filter?(:types, value) %>
+
+          <%= link_to Product.human_attribute_name(value),
+              storefront_products_path(toggle_filter(:types, value)),
+              class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+        <% end %>
+      </div>
+    </details>
+
+    <!-- ACCORDEON: Estado -->
+    <details class="mb-4" <%= "open" if params[:statuses].present? %>>
+        <summary class="cursor-pointer text-lg font-semibold">Estado</summary>
+
+        <div class="mt-2 ml-2 space-y-1">
+            <% Product.statuses.each_key do |value| %>
+            <% active = active_filter?(:statuses, value) %>
+
+            <%= link_to value.humanize,
+                    storefront_products_path(toggle_filter(:statuses, value)),
+                    class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+            <% end %>
+        </div>
+
+    </details>
+
+
+  </aside>
+
+  <!-- LISTA DE PRODUCTOS -->
+  <div class="flex-1">
+
+    <% if @products.empty? %>
+      <div class="p-6 bg-red-100 text-red-700 rounded-xl text-center">
+        No hay productos disponibles con los filtros seleccionados.
+      </div>
+    <% else %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <% @products.each do |product| %>
+          <%= render partial: "card_product", locals: { product: product } %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
