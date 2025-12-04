@@ -1,0 +1,86 @@
+<section class="w-full px-6 py-10">
+    <div class="mx-auto flex max-w-6xl flex-col gap-6">
+        <header class="flex flex-col gap-2 border-b border-slate-200 pb-4">
+            <p class="text-xs uppercase tracking-[0.35em] text-slate-500">Administración</p>
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-semibold text-slate-900">Usuarios</h1>
+                    <p class="text-sm text-slate-500">Listá, buscá y administrá las cuentas de la plataforma.</p>
+                </div>
+                <% if policy(User).new? %>
+                <%= link_to "Nuevo usuario", new_admin_user_path, class: "inline-flex items-center gap-2 rounded-full bg-(--accent) px-5 py-2 text-sm font-semibold text-white shadow transition hover:brightness-110" %>
+                <% end %>
+            </div>
+        </header>
+
+        <%= form_with url: admin_users_path, method: :get, local: true, class: "flex flex-wrap items-end gap-4" do |form| %>
+        <div class="flex flex-col gap-2">
+            <%= form.label :query, "Buscar por email", class: "text-sm font-medium text-slate-700" %>
+            <%= form.text_field :query, value: @query, placeholder: "usuario@records.com", class: "w-72 rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 shadow-sm focus:border-(--accent) focus:outline-none focus:ring-2 focus:ring-(--accent)/40" %>
+        </div>
+        <div class="flex flex-col gap-2">
+            <%= form.label :per_page, "Resultados por página", class: "text-sm font-medium text-slate-700" %>
+            <%= form.select :per_page, options_for_select([[10, 10], [15, 15], [25, 25], [50, 50]], @per_page), {}, class: "rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 shadow-sm focus:border-(--accent) focus:outline-none focus:ring-2 focus:ring-(--accent)/40" %>
+        </div>
+        <div class="flex gap-3">
+            <%= form.submit "Aplicar filtros", class: "mt-6 rounded-full bg-slate-900 px-6 py-2 text-sm font-semibold text-white transition hover:bg-slate-700" %>
+            <% if @query.present? || params[:per_page].present? %>
+            <%= link_to "Limpiar", admin_users_path, class: "mt-6 rounded-full border border-slate-300 px-6 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50" %>
+            <% end %>
+        </div>
+        <% end %>
+
+        <% if @users.any? %>
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="scrollbar-thin overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                    <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Nombre</th>
+                            <th scope="col" class="px-6 py-3">Email</th>
+                            <th scope="col" class="px-6 py-3">Rol</th>
+                            <th scope="col" class="px-6 py-3">Creado</th>
+                            <th scope="col" class="px-6 py-3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 bg-white">
+                        <% @users.each do |user| %>
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-6 py-4 font-medium text-slate-900">
+                                <% full_name = [user.name, user.last_name].select(&:present?).join(" ") %>
+                                <%= full_name.presence || "Sin nombre" %>
+                            </td>
+                            <td class="px-6 py-4 font-medium text-slate-900"><%= user.email %></td>
+                            <td class="px-6 py-4 text-slate-700">
+                                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                                    <%= user.role.present? ? user.role.humanize : "Sin rol" %>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-slate-600"><%= l(user.created_at, format: :short) rescue user.created_at.to_s(:short) %></td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="inline-flex gap-2">
+                                    <%= link_to "Ver", admin_user_path(user), class: "rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100" %>
+                                    <%= link_to "Editar", edit_admin_user_path(user), class: "rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-100" %>
+                                </div>
+                            </td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="border-t border-slate-200 bg-slate-50 px-6 py-4">
+                <%= paginate @users %>
+            </div>
+        </div>
+        <% else %>
+        <div class="rounded-2xl border border-dashed border-slate-200 bg-white/80 p-10 text-center text-slate-500">
+            <p class="text-lg font-semibold">No encontramos usuarios</p>
+            <% if @query.present? %>
+            <p class="mt-2 text-sm">Probá ajustando la búsqueda por email.</p>
+            <% else %>
+            <p class="mt-2 text-sm">Todavía no hay usuarios registrados.</p>
+            <% end %>
+        </div>
+        <% end %>
+    </div>
+</section>

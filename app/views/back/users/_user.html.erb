@@ -1,0 +1,26 @@
+<div id="<%= dom_id user %>" class="w-full space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div>
+        <strong class="block text-sm font-semibold text-slate-500"><%= I18n.t("activerecord.attributes.user.name", default: "Nombre") %></strong>
+        <p class="text-base text-slate-900"><%= user.name.presence || "Sin nombre" %></p>
+    </div>
+
+    <div>
+        <strong class="block text-sm font-semibold text-slate-500"><%= I18n.t("activerecord.attributes.user.last_name", default: "Apellido") %></strong>
+        <p class="text-base text-slate-900"><%= user.last_name.presence || "Sin apellido" %></p>
+    </div>
+
+    <div>
+        <strong class="block text-sm font-semibold text-slate-500"><%= I18n.t("activerecord.attributes.user.email", default: "Email") %></strong>
+        <p class="text-base text-slate-900"><%= user.email %></p>
+    </div>
+
+    <div>
+        <strong class="block text-sm font-semibold text-slate-500"><%= I18n.t("activerecord.attributes.user.role", default: "Rol") %></strong>
+        <p class="text-base text-slate-900"><%= user.role.present? ? user.role.humanize : "Sin rol" %></p>
+    </div>
+
+    <div>
+        <strong class="block text-sm font-semibold text-slate-500">Creado</strong>
+        <p class="text-base text-slate-900"><%= l(user.created_at, format: :long) rescue user.created_at.to_s(:long) %></p>
+    </div>
+</div>

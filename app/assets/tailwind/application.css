@@ -20,7 +20,7 @@ input[type="password"] {
     padding: 0.25rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    border-radius: 9999px;
+    border-radius: 0.5rem;
 }
 
 /* Toast Notifications */

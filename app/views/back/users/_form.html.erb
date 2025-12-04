@@ -1,0 +1,84 @@
+<% can_assign_role = current_user&.admin? %>
+<% can_edit_password = user.new_record? || current_user == user %>
+
+<%= form_with(model: [:admin, user], class: "space-y-6") do |form| %>
+<% if user.errors.any? %>
+<div id="error_explanation" class="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+    <p class="font-semibold"><%= pluralize(user.errors.count, "error") %> impidieron guardar al usuario:</p>
+    <ul class="mt-2 list-disc space-y-1 pl-5">
+        <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+<div class="space-y-2">
+    <%= form.label :name, class: "text-sm font-medium text-slate-700" %>
+    <%= form.text_field :name,
+          class: [
+            "block w-full rounded-xl border px-4 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2",
+            user.errors[:name].any? ? "border-red-400 focus:ring-red-200" : "border-slate-200 focus:ring-(--accent)/40"
+          ] %>
+</div>
+
+<div class="space-y-2">
+    <%= form.label :last_name, class: "text-sm font-medium text-slate-700" %>
+    <%= form.text_field :last_name,
+          class: [
+            "block w-full rounded-xl border px-4 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2",
+            user.errors[:last_name].any? ? "border-red-400 focus:ring-red-200" : "border-slate-200 focus:ring-(--accent)/40"
+          ] %>
+</div>
+
+<div class="space-y-2">
+    <%= form.label :email, class: "text-sm font-medium text-slate-700" %>
+    <%= form.email_field :email,
+          class: [
+            "block w-full rounded-xl border px-4 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2",
+            user.errors[:email].any? ? "border-red-400 focus:ring-red-200" : "border-slate-200 focus:ring-(--accent)/40"
+          ] %>
+</div>
+
+<% if can_assign_role %>
+<div class="space-y-2">
+    <%= form.label :role, class: "text-sm font-medium text-slate-700" %>
+    <%= form.select :role,
+            options_for_select(User.roles.keys.map { |role| [role.humanize, role] }, user.role),
+            { prompt: "Seleccionar rol" },
+            class: [
+              "block w-full rounded-xl border px-4 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2",
+              user.errors[:role].any? ? "border-red-400 focus:ring-red-200" : "border-slate-200 focus:ring-(--accent)/40"
+            ] %>
+</div>
+<% end %>
+
+<% if can_edit_password %>
+<div class="space-y-2">
+    <div class="flex items-center justify-between">
+        <%= form.label :password, class: "text-sm font-medium text-slate-700" %>
+        <% if user.persisted? %>
+        <span class="text-xs text-slate-500">Dejar en blanco para mantener la actual</span>
+        <% end %>
+    </div>
+    <%= form.password_field :password, autocomplete: "new-password",
+            class: [
+              "block w-full rounded-xl border px-4 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2",
+              user.errors[:password].any? ? "border-red-400 focus:ring-red-200" : "border-slate-200 focus:ring-(--accent)/40"
+            ] %>
+</div>
+
+<div class="space-y-2">
+    <%= form.label :password_confirmation, class: "text-sm font-medium text-slate-700" %>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password",
+            class: [
+              "block w-full rounded-xl border px-4 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2",
+              user.errors[:password_confirmation].any? ? "border-red-400 focus:ring-red-200" : "border-slate-200 focus:ring-(--accent)/40"
+            ] %>
+</div>
+<% end %>
+
+<div class="flex flex-wrap gap-3">
+    <%= save_button %>
+</div>
+<% end %>
