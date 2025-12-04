@@ -87,12 +87,11 @@ gem "wkhtmltopdf-binary"
 
 gem "view_component", "~> 4.1"
 
-#Paginacion
+# Paginacion
 gem "kaminari"
 
-#Permite agrupar por fechas sin complicarse con sql
+# Permite agrupar por fechas sin complicarse con sql
 gem "groupdate"
 
-#Sirve para hacer graficos
+# Sirve para hacer graficos
 gem "chartkick"
-
