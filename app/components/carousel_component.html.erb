@@ -1,13 +1,17 @@
-<section id="<%= dom_id %>" class="carousel mx-auto w-full max-w-[60%] outline-none" role="region" aria-roledescription="Carrusel" aria-label="<%= aria_label %>" tabindex="0" data-controller="carousel" data-carousel-autoplay-value="<%= autoplay %>" data-carousel-interval-value="<%= interval %>" data-carousel-loop-value="<%= loop %>" data-carousel-pause-on-hover-value="<%= pause_on_hover %>" data-action="keydown->carousel#handleKey mouseenter->carousel#handleMouseEnter mouseleave->carousel#handleMouseLeave touchstart.passive->carousel#onTouchStart touchend.passive->carousel#onTouchEnd">
+<section id="<%= dom_id %>" class="carousel mx-auto w-full max-w-[70%] outline-none" role="region" aria-roledescription="Carrusel" aria-label="<%= aria_label %>" tabindex="0" data-controller="carousel" data-carousel-autoplay-value="<%= autoplay %>" data-carousel-interval-value="<%= interval %>" data-carousel-loop-value="<%= loop %>" data-carousel-pause-on-hover-value="<%= pause_on_hover %>" data-action="keydown->carousel#handleKey mouseenter->carousel#handleMouseEnter mouseleave->carousel#handleMouseLeave touchstart.passive->carousel#onTouchStart touchend.passive->carousel#onTouchEnd">
     <div class="viewport relative min-h-[20rem] w-full overflow-hidden rounded-2xl bg-white text-white shadow-2xl">
         <div class="slides relative aspect-video w-full" data-carousel-target="track">
             <% if slides.present? %>
             <% slides.each_with_index do |slide, index| %>
             <div class="slide absolute inset-0 flex h-full w-full flex-col items-center justify-center overflow-hidden opacity-0 transition duration-300 ease-out" data-carousel-target="slide" data-carousel-index-value="<%= index %>">
                 <%= image_tag slide[:src], alt: slide[:alt], class: "main-image block h-full w-full object-cover", draggable: false %>
-                <% if slide[:description].present? %>
-                <div class="caption pointer-events-none absolute translate-y-1/2 left-4 w-full">
-                    <p class="text-7xl text-black"><%= slide[:description] %></p>
+                <% if slide[:title].present? %>
+                <div class="caption pointer-events-none absolute translate-y-1/2 left-4 w-full h-[50%] max-w-lg flex flex-col justify-between pb-8">
+                    <div class="flex flex-col gap-2">
+                        <h1 class=" text-7xl text-black"><%= slide[:title] %></h1>
+                        <p class="text-lg text-black pl-2"><%= slide[:description] %></p>
+                    </div>
+                    <%= link_to "Explorar", slide[:link], class:"mt-4 ml-2 w-32 rounded-lg bg-(--accent) px-4 py-2 text-white hover:bg-gray-800/10 hover:text-black transition-colors pointer-events-auto text-center" %>
                 </div>
                 <% end %>
             </div>
@@ -31,7 +35,7 @@
         <% end %>
 
         <% if multiple_slides? %>
-        <div class="indicators pointer-events-auto absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-3" data-carousel-target="indicatorWrapper">
+        <div class="indicators pointer-events-auto absolute bottom-4 right-3 flex gap-3 rounded-full bg-gray-800/30 p-3 z-30" data-carousel-target="indicatorWrapper">
             <% slides.each_with_index do |slide, index| %>
             <button type="button" class="indicator h-3 w-3 rounded-full border border-white/60 bg-white/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white" data-carousel-target="indicator" data-action="click->carousel#go" data-carousel-index-param="<%= index %>" aria-label="Ir a la imagen <%= index + 1 %>"></button>
             <% end %>

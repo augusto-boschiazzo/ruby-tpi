@@ -1,15 +1,40 @@
-<section class="flex flex-col items-center justify-center w-screen space-y-6 py-16">
+<section class="flex flex-col items-center justify-center w-full space-y-6 py-16">
     <%= render(
                     CarouselComponent.new(
                         autoplay: true,
-                        interval: 8000,
+                        interval: 4000,
                         pause_on_hover: true,
                         show_arrows: false,
                         images: [
-                            { src: asset_path("carousel/image1.jpeg"), alt: "Vinilo", description: "Vinilos" },
-                            { src: asset_path("carousel/image2.jpeg"), alt: "CD", description: "CDs" },
-                            { src: asset_path("carousel/image3.jpeg"), alt: "CDs usados", description: "Nuevos y usados" }
+                            { src: asset_path("carousel/image1.jpeg"), alt: "Vinilo", title: "Vinilos", description: "Comprá vinilos exclusivos", link: "#vinilo" },
+                            { src: asset_path("carousel/image2.jpeg"), alt: "CD", title: "CDs", description: "Explorá nuestra colección de CDs", link: "#cds" },
+                            { src: asset_path("carousel/image3.jpeg"), alt: "CDs usados", title: "Nuevos y usados", description: "Encontrá CDs y vinilos nuevos o usados", link: "#nuevos-usados" }
                         ]
                     )
                 ) %>
+</section>
+
+<section class="w-full px-6 py-12">
+    <div class="mx-auto flex max-w-6xl flex-col gap-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.35em] text-slate-500">Destacados</p>
+                <h2 class="text-3xl font-semibold text-slate-900">Recomendados para vos</h2>
+            </div>
+        </div>
+
+        <% if @featured_products.present? %>
+        <%= render ProductCarouselComponent.new(
+                products: @featured_products,
+                title: nil,
+                subtitle: nil,
+                visible: 10,
+                card_size: :md,
+            ) %>
+        <% else %>
+        <div class="rounded-2xl border border-dashed border-slate-200 bg-white/60 p-6 text-center text-slate-500">
+            Aún no hay productos para mostrar. Agregá algunos desde el panel de administración.
+        </div>
+        <% end %>
+    </div>
 </section>

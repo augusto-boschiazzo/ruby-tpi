@@ -1,5 +1,8 @@
-<header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-10">
-    <%= link_to "Store", root_path, class: "text-2xl font-bold text-[var(--accent)]" %>
+<header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-1000 backdrop-blur">
+    <%= link_to root_path, class: "text-3xl font-bold text-black" do %>
+    <%= image_tag "icon.png", alt: "Logo de RecordsOnRails", class: "inline h-8 w-8 mr-2" %>
+    <span class="text-(--accent)">Records</span>OnRails
+    <% end %>
     <nav class="space-x-4">
         <% if helpers.user_signed_in? %>
         <span>Signed in as <%= @user.email %></span>

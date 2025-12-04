@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <title><%= content_for(:title) || "Store" %></title>
+    <title><%= content_for(:title) || "RecordsOnRails" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Store">
+    <meta name="application-name" content="RecordsOnRails">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -15,9 +15,8 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <%= favicon_link_tag 'favicon.ico', type: 'image/x-icon' %>
+
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
@@ -32,7 +31,7 @@
     <p class="notice absolute top-0 w-full text-center"><%= notice %></p>
     <p class="alert absolute top-0 w-full text-center"><%= alert %></p>
     <%= render TopbarComponent.new(user: current_user) %>
-    <main class="container mx-auto px-5 flex py-12 flex-col justify-center items-center">
+    <main class="container flex py-12 flex-col w-screen mx-auto justify-center items-center">
         <%= yield %>
     </main>
 </body>

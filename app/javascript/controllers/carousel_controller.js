@@ -136,9 +136,10 @@ export default class extends Controller {
             const isActive = index === this.currentIndex;
             slide.style.opacity = isActive ? "1" : "0";
             slide.style.pointerEvents = isActive ? "auto" : "none";
-            slide.style.transform = isActive
-                ? "translateX(0%)"
-                : "translateX(0%)";
+            slide.classList.toggle("pointer-events-none", !isActive);
+            slide.classList.toggle("pointer-events-auto", isActive);
+            slide.style.zIndex = isActive ? "20" : "0";
+            slide.style.transform = "translateX(0%)";
             slide.setAttribute("aria-hidden", isActive ? "false" : "true");
         });
     }

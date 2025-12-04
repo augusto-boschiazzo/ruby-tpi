@@ -1,0 +1,41 @@
+<section id="<%= dom_id %>" class="product-carousel w-full" data-controller="product-carousel" data-product-carousel-visible-value="<%= visible %>">
+    <% if title.present? || subtitle.present? %>
+    <header class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <% if title.present? %>
+            <h2 class="text-3xl font-semibold text-slate-900"><%= title %></h2>
+            <% end %>
+            <% if subtitle.present? %>
+            <p class="mt-1 text-base text-slate-500"><%= subtitle %></p>
+            <% end %>
+        </div>
+    </header>
+    <% end %>
+
+    <% if empty? %>
+    <div class="rounded-2xl border border-dashed border-slate-200 bg-white/50 p-8 text-center text-slate-500">
+        No hay productos para mostrar en este carrusel todavía.
+    </div>
+    <% else %>
+    <% item_width = "calc((100% - ((#{visible - 1}) * 1.5rem)) / #{visible})" %>
+    <div class="relative">
+        <div class="overflow-hidden px-2 sm:px-4" data-product-carousel-target="viewport">
+            <div class="flex gap-6" data-product-carousel-target="track">
+                <% products.each do |product| %>
+                <div class="flex-shrink-0" data-product-carousel-target="item" style="flex: 0 0 <%= item_width %>; max-width: <%= item_width %>;">
+                    <%= render ProductCardComponent.new(product: product, size: card_size, classes: "h-full") %>
+                </div>
+                <% end %>
+            </div>
+        </div>
+        <% if display_arrows? %>
+        <button type="button" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 sm:-translate-x-2 md:-translate-x-full z-10 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-xl text-slate-900 shadow-lg transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" data-action="click->product-carousel#previous" data-product-carousel-target="previousButton" aria-label="Ver productos anteriores">
+            &#8249;
+        </button>
+        <button type="button" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 sm:translate-x-2 md:translate-x-full z-10 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-xl text-slate-900 shadow-lg transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" data-action="click->product-carousel#next" data-product-carousel-target="nextButton" aria-label="Ver productos siguientes">
+            &#8250;
+        </button>
+        <% end %>
+    </div>
+    <% end %>
+</section>
