@@ -1,4 +1,4 @@
-<header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-1000 backdrop-blur" data-controller="topbar" data-topbar-watch-selector-value="#acerca-de">
+<header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-100 backdrop-blur" data-controller="topbar" data-topbar-watch-selector-value="#acerca-de">
     <%= link_to root_path, class: "text-3xl font-bold text-black" do %>
     <%= image_tag "icon.png", alt: "Logo de RecordsOnRails", class: "inline h-8 w-8 mr-2" %>
     <span class="text-(--accent) transition-colors duration-300" data-topbar-target="brand">Records</span>OnRails
@@ -9,7 +9,6 @@
         <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-(--accent) transition-colors duration-300 cursor-pointer", data: { topbar_target: "brand" } %>
         <% else %>
         <%= link_to "Login", new_user_session_path, class: "text-(--accent) transition-colors duration-300", data: { topbar_target: "brand" } %>
-        <%= link_to "Sign Up", new_user_registration_path, class: "text-(--accent) transition-colors duration-300", data: { topbar_target: "brand" } %>
         <% end %>
     </nav>
 </header>
