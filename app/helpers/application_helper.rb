@@ -30,4 +30,18 @@ module ApplicationHelper
   def destroy_form_button(record)
     button_to t("actions.destroy"), record, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: t("common.confirmation") }
   end
+
+  # Sacado de https://github.com/rwz/nestive/blob/master/lib/nestive/layout_helper.rb
+  def extends(layout, &block)
+    # Asegurarse que es string
+    layout = layout.to_s
+
+    # Agregar prefijo de layouts si no está presente
+    layout = "layouts/#{layout}" unless layout.include?('/')
+
+    # Reemplazar el contenido del layout con el bloque dado
+    @view_flow.get(:layout).replace capture(&block)
+
+    render template: layout
+  end
 end

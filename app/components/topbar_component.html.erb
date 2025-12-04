@@ -1,12 +1,35 @@
-<header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-10">
-    <%= link_to "Store", root_path, class: "text-2xl font-bold text-[var(--accent)]" %>
-    <nav class="space-x-4">
+<header class="flex fixed top-0 w-full justify-between items-center px-5 py-3 z-100 backdrop-blur" data-controller="topbar" data-topbar-watch-selector-value="#acerca-de">
+    <%= link_to root_path, class: "text-3xl font-bold text-black" do %>
+    <%= image_tag "icon.png", alt: "Logo de RecordsOnRails", class: "inline h-8 w-8 mr-2" %>
+    <span class="text-(--accent) transition-colors duration-300" data-topbar-target="brand">Records</span>OnRails
+    <% end %>
+    <nav class="flex items-center gap-4">
         <% if helpers.user_signed_in? %>
-        <span>Signed in as <%= @user.email %></span>
-        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-[var(--accent)] cursor-pointer" %>
+        <div class="relative">
+            <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-white shadow-md px-4 py-2 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-(--accent) cursor-pointer" data-topbar-target="menuButton" data-action="click->topbar#toggleMenu" aria-haspopup="true" aria-expanded="false">
+                <span class="inline-flex items-center gap-2 text-(--accent)">
+                    <span>Administración</span>
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.939l3.71-3.71a.75.75 0 0 1 1.06 1.062l-4.24 4.24a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </button>
+
+            <div class="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-white/20 bg-white/95 p-4 text-left shadow-2xl backdrop-blur transition duration-200 ease-out origin-top pointer-events-none opacity-0 -translate-y-2 scale-95" data-topbar-target="menu" hidden>
+                <div class="mb-3 space-y-1">
+                    <p class="text-base font-semibold text-slate-900"><%= @user.email %></p>
+                    <p class="text-xs uppercase tracking-widest text-slate-500">Rol: <%= (@user.role&.humanize.presence || "Sin rol") %></p>
+                </div>
+                <div class="space-y-2 border-t border-slate-200 pt-3">
+                    <%= link_to "Ir a administración", products_path, class: "flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50" %>
+                    <%= button_to destroy_user_session_path, method: :delete, class: "w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 cursor-pointer", data: { turbo: false } do %>
+                    Cerrar sesión
+                    <% end %>
+                </div>
+            </div>
+        </div>
         <% else %>
-        <%= link_to "Login", new_user_session_path, class: "text-[var(--accent)]" %>
-        <%= link_to "Sign Up", new_user_registration_path, class: "text-[var(--accent)]" %>
+        <%= link_to "Login", new_user_session_path, class: "text-(--accent) transition-colors duration-300", data: { topbar_target: "brand" } %>
         <% end %>
     </nav>
 </header>
