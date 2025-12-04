@@ -41,7 +41,9 @@ export default class extends Controller {
     }
 
     applyState(isActive) {
-        this.brandTarget.classList.toggle(this.activeClassValue, isActive);
-        this.brandTarget.classList.toggle(this.inactiveClassValue, !isActive);
+        this.brandTargets.forEach((target) => {
+            target.classList.toggle(this.activeClassValue, isActive);
+            target.classList.toggle(this.inactiveClassValue, !isActive);
+        });
     }
 }

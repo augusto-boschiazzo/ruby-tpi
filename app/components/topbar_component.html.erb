@@ -6,10 +6,10 @@
     <nav class="space-x-4">
         <% if helpers.user_signed_in? %>
         <span>Signed in as <%= @user.email %></span>
-        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-[var(--accent)] cursor-pointer" %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "text-(--accent) transition-colors duration-300 cursor-pointer", data: { topbar_target: "brand" } %>
         <% else %>
-        <%= link_to "Login", new_user_session_path, class: "text-[var(--accent)]" %>
-        <%= link_to "Sign Up", new_user_registration_path, class: "text-[var(--accent)]" %>
+        <%= link_to "Login", new_user_session_path, class: "text-(--accent) transition-colors duration-300", data: { topbar_target: "brand" } %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "text-(--accent) transition-colors duration-300", data: { topbar_target: "brand" } %>
         <% end %>
     </nav>
 </header>
