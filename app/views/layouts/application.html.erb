@@ -31,7 +31,7 @@
     <p class="notice absolute top-0 w-full text-center"><%= notice %></p>
     <p class="alert absolute top-0 w-full text-center"><%= alert %></p>
     <%= render TopbarComponent.new(user: current_user) %>
-    <main class="container flex py-12 flex-col w-screen mx-auto justify-center items-center">
+    <main class="flex flex-col w-full max-w-full pt-12 overflow-x-hidden">
         <%= yield %>
     </main>
 </body>
