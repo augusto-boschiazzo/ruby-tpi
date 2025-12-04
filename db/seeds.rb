@@ -22,6 +22,7 @@ rock   = ProductCategory.find_or_create_by!(name: 'Rock')
     description: "un cd de bob marley",
     author: "bob marley",
     price: 20,
+    year: 1985,
     product_type: "cd",
     product_category: regg,
     status: "used"
@@ -32,6 +33,7 @@ rock   = ProductCategory.find_or_create_by!(name: 'Rock')
     author: "Pavarotti",
     price: 10,
     stock: 8,
+    year: 1990,
     product_type: "cd",
     product_category: clasic,
     status: "recent"
@@ -42,6 +44,7 @@ rock   = ProductCategory.find_or_create_by!(name: 'Rock')
     author: "The Rolling Stones",
     price: 30,
     stock: 12,
+    year: 1975,
     product_type: "vinyl",
     product_category: rock,
     status: "recent"
@@ -52,6 +55,7 @@ rock   = ProductCategory.find_or_create_by!(name: 'Rock')
     product.author            = attrs[:author]
     product.price             = attrs[:price]
     product.stock             = attrs[:stock]
+    product.year              = attrs[:year]
     product.product_type      = attrs[:product_type]
     product.product_category  = attrs[:product_category]
     product.status            = attrs[:status]
@@ -112,3 +116,29 @@ users.each do |attrs|
     user.password  = attrs[:password]
   end
 end
+
+audio_samples = {
+  "Survival"           => "survival.mp3",
+  "Pavarotti"          => "jazz.mp3",
+  "The Rolling Stones" => "rock.mp3"
+}
+
+audio_samples.each do |product_name, file_name|
+  product = Product.find_by(name: product_name)
+
+  next unless product
+  next if product.audio.attached?
+
+  audio_path = Rails.root.join("db/seed/audio/#{file_name}")
+
+  if File.exist?(audio_path)
+    product.audio.attach(
+      io: File.open(audio_path),
+      filename: file_name,
+      content_type: "audio/mpeg"
+    )
+  else
+    puts "No se encontró: #{audio_path}"
+  end
+end
+

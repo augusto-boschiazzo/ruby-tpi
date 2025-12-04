@@ -5,6 +5,47 @@
   <!-- SIDEBAR -->
   <aside class="w-64 bg-gray-100 p-4 rounded-xl">
 
+    <!-- BUSCADOR: Título/Artista -->
+  <div class="mb-6">
+    <h3 class="text-lg font-semibold mb-2">Buscar</h3>
+    <%= form_with url: storefront_products_path, method: :get, local: true, scope: nil do %>
+
+
+      <div class="flex flex-col gap-2">
+
+        <%= text_field_tag :query,
+            params[:query],
+            placeholder: "Título o artista...",
+            class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
+
+        <%= text_field_tag :year,
+            params[:year].presence,
+            placeholder: "Año",
+            class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
+
+        <% Array(params[:categories]).each do |c| %>
+          <%= hidden_field_tag "categories[]", c %>
+        <% end %>
+
+        <% Array(params[:types]).each do |t| %>
+          <%= hidden_field_tag "types[]", t %>
+        <% end %>
+
+        <% Array(params[:statuses]).each do |s| %>
+          <%= hidden_field_tag "statuses[]", s %>
+        <% end %>
+
+        <%= submit_tag "Buscar",
+            name: nil,
+            class: "bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition" %>
+      
+          <%= link_to "Limpiar filtros", storefront_products_path, 
+            class: "bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition text-center font-medium" %>
+
+      </div>
+
+    <% end %>
+
     <!-- ACCORDEON: Categorías -->
     <details class="mb-4" <%= "open" if params[:categories].present? %>>
         <summary class="cursor-pointer text-lg font-semibold">Categorías</summary>

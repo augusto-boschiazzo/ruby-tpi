@@ -26,6 +26,13 @@
     <%= truncate(product.description, length: 80) %>
   </p>
 
+  <% if product.audio.attached? %>
+      <audio class="w-full rounded-lg" controls preload="none">
+        <source src="<%= url_for(product.audio) %>" type="<%= product.audio.content_type %>">
+        Tu navegador no soporta audio.
+      </audio>
+  <% end %>
+
   <!-- Precio -->
   <p class="text-xl font-bold mt-3">
     $ <%= product.price %>
