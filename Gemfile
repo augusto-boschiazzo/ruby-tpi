@@ -41,8 +41,8 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  # eliminar queries N + 1
+  gem "bullet"
 
   gem "byebug", "~> 12.0"
 
@@ -50,7 +50,7 @@ group :development, :test do
   gem "bundler-audit", require: false
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
+  gem "brakeman", "7.1.1", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
@@ -67,17 +67,20 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# Estilos
 gem "tailwindcss-rails", "~> 4.4"
 
 gem "foreman", "~> 0.90.0"
 
+# Autenticación
 gem "devise", "~> 4.9"
 
+# Permisos de usuarios
 gem "pundit", "~> 2.5"
 
 gem "acts_as_paranoid", "~> 0.11.0"
 
-#Para las facturas de las ventas
+# Para las facturas de las ventas
 gem "wicked_pdf"
 
 gem "wkhtmltopdf-binary"
@@ -86,7 +89,6 @@ gem "view_component", "~> 4.1"
 
 #Paginacion
 gem "kaminari"
-gem "kaminari-tailwind", "~> 0.1.0"
 
 #Permite agrupar por fechas sin complicarse con sql
 gem "groupdate"

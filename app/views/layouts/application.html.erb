@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <title><%= content_for(:title) || "Store" %></title>
+    <title><%= content_for(:title) || "RecordsOnRails" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Store">
+    <meta name="application-name" content="RecordsOnRails">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -15,9 +15,8 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <%= favicon_link_tag 'favicon.ico', type: 'image/x-icon' %>
+
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
@@ -32,11 +31,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap" rel="stylesheet">
 </head>
 
+<% if flash[:toast].present? %>
+<% toast_data = flash[:toast].is_a?(Hash) ? flash[:toast].with_indifferent_access : {} %>
+<script>
+    document.addEventListener('turbo:load', function() {
+        toast('<%= j toast_data[:message] %>', {
+            type: '<%= toast_data[:type] || "default" %>',
+            description: '<%= j toast_data[:description].to_s %>'
+        });
+    }, {
+        once: true
+    });
+</script>
+<% end %>
+
+<% if notice.present? %>
+<script>
+    document.addEventListener('turbo:load', function() {
+        toast('<%= j notice %>', {
+            type: 'success'
+        });
+    }, {
+        once: true
+    });
+</script>
+<% end %>
+
+<% if alert.present? %>
+<script>
+    document.addEventListener('turbo:load', function() {
+        toast('<%= j alert %>', {
+            type: 'error'
+        });
+    }, {
+        once: true
+    });
+</script>
+<% end %>
+
 <body>
-    <p class="notice absolute top-0 w-full text-center"><%= notice %></p>
-    <p class="alert absolute top-0 w-full text-center"><%= alert %></p>
+    <%= render "shared/toast_container" %>
     <%= render TopbarComponent.new(user: current_user) %>
-    <main class="container mx-auto px-5 flex py-12 flex-col justify-center items-center">
+    <main class="flex flex-col w-full max-w-full pt-12 overflow-x-hidden">
         <%= yield %>
     </main>
 </body>

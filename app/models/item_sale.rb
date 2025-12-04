@@ -9,7 +9,7 @@ class ItemSale < ApplicationRecord
   before_validation :set_unit_price_from_product, if: -> { product.present? && unit_price.blank? }
 
   def product_has_enough_stock
-    return if product.nil? || quantity.nil?
+    return if product.nil? || quantity.nil? || product.stock.nil?
 
     if quantity > product.stock
       errors.add(:quantity, "no puede superar el stock disponible (#{product.stock})")

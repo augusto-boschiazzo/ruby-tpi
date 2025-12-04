@@ -1,4 +1,4 @@
-class ReportsController < BackController
+class Back::ReportsController < BackController
   def sales_summary
     @sales_by_month = Sale.group_by_month(:sold_at, format: "%b %Y").count
     @amount_by_month = Sale.group_by_month(:sold_at, format: "%b %Y").sum(:total_amount)

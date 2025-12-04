@@ -1,21 +1,25 @@
 Rails.application.routes.draw do
-  resources :reports, only: [] do
-    collection do
-      get :sales_summary
-      get :top_products
-      get :sales_by_employee
-    end
-  end
-  resources :sales, only: [ :index, :show, :new, :create ] do
-    patch :cancel, on: :member
-    get :invoice, on: :member
-  end
-
-
   devise_for :users
 
   scope module: "back" do
     resources :products
+
+    resources :sales, only: [ :index, :show, :new, :create ] do
+      patch :cancel, on: :member
+      get :invoice, on: :member
+    end
+
+    resources :reports, only: [] do
+      collection do
+        get :sales_summary
+        get :top_products
+        get :sales_by_employee
+      end
+    end
+  end
+
+  namespace :admin, module: "back", as: "admin" do
+    resources :users
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
