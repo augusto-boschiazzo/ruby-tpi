@@ -108,7 +108,9 @@
     <% if product.images.attached? %>
       <div class="mt-3 grid grid-cols-3 gap-2">
         <% product.images.each do |image| %>
-          <%= image_tag image.variant(resize_to_limit: [150, 150]), class: "rounded-lg" %>
+          <% if image.persisted? %>
+            <%= image_tag image.variant(resize_to_limit: [150, 150]), class: "rounded-lg" %>
+          <% end %>
         <% end %>
       </div>
     <% end %>
