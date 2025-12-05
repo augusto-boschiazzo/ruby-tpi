@@ -19,20 +19,18 @@ class Product < ApplicationRecord
             presence: true,
             if: -> { recent? }
 
-  validates :stock,
-            absence: true,
-            if: -> { used? }
+  validates :stock, inclusion: { in: [ 0, 1 ] }, if: -> { used? }
 
   validate :audio_only_for_used
 
-  before_validation :normalize_stock
+  before_validation :normalize_stock, on: :create
   before_destroy :reset_stock
 
   private
 
   def normalize_stock
     # Si es 'used', el stock debe ser nil, no "" ni "0"
-    self.stock = nil if used?
+    self.stock = 1 if used?
   end
 
   def audio_only_for_used
