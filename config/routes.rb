@@ -10,6 +10,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :storefront do
+    resources :products, only: [:index, :show]
+  end
+  
   namespace :admin, module: "back", as: "admin" do
     resources :users
   end
