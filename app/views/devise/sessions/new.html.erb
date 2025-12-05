@@ -1,7 +1,7 @@
-<div class="flex flex-col items-center justify-center min-h-screen gap-6">
-    <h2 class="text-4xl font-bold mb-6">Log in</h2>
+<div class="flex flex-col items-center h-full gap-8 pt-32">
+    <h2 class="text-4xl font-bold mb-6">Iniciar sesión</h2>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
     <div class="field">
         <%= f.label :email %><br />
         <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
@@ -20,11 +20,11 @@
     <% end %>
 
     <div class="actions flex justify-center mt-4">
-        <%= f.submit "Log in", class: "py-2 px-4 bg-(--accent) text-white rounded-full hover:scale-110 transition-transform duration-200 cursor-pointer" %>
+        <%= f.submit "Iniciar sesión", class: "py-2 px-4 bg-(--accent) text-white rounded-full hover:scale-110 transition-transform duration-200 cursor-pointer" %>
     </div>
     <% end %>
 </div>
 
-<div class="mt-4 flex flex-col justify-center items-center">
+<div class="flex justify-center">
     <%= render "devise/shared/links" %>
 </div>
