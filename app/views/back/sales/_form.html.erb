@@ -1,9 +1,10 @@
 <%= form_with(model: sale, class: "contents", data: { controller: "item-sales" }) do |form| %>
-  <% if sale.errors.any? %>
+
+  <% if sale.errors[:base].any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(sale.errors.count, "error") %> impidieron guardar la venta:</h2>
+      <h2><%= pluralize(sale.errors[:base].count, "error") %> impidieron guardar la venta:</h2>
       <ul class="list-disc ml-6">
-        <% sale.errors.full_messages.each do |msg| %>
+        <% sale.errors[:base].each do |msg| %>
           <li><%= msg %></li>
         <% end %>
       </ul>
@@ -15,14 +16,25 @@
     <div class="my-5">
       <%= fc.label :name, "Nombre" %>
       <%= fc.text_field :name, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+      <% fc.object.errors[:name].each do |msg| %>
+        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+      <% end %>
     </div>
+
     <div class="my-5">
       <%= fc.label :dni, "DNI" %>
       <%= fc.text_field :dni, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+      <% fc.object.errors[:dni].each do |msg| %>
+        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+      <% end %>
     </div>
+
     <div class="my-5">
       <%= fc.label :email, "Email" %>
       <%= fc.email_field :email, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+      <% fc.object.errors[:email].each do |msg| %>
+        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+      <% end %>
     </div>
   <% end %>
 
@@ -32,20 +44,20 @@
     <%= form.fields_for :item_sales do |item_form| %>
       <div class="nested-fields border p-4 rounded bg-gray-50 mb-4">
         <%= item_form.collection_select :product_id, Product.all, :id, :name, { prompt: "Seleccionar producto" }, class: "border rounded p-2 w-full", data: { action: "change->item-sales#updatePrice" } %>
-        <%= item_form.number_field :quantity, min: 1, placeholder: "Cantidad", class: "border rounded p-2 w-full mt-2" %>
-        <%= item_form.number_field :unit_price, step: 0.01, placeholder: "Precio unitario", class: "border rounded p-2 w-full mt-2", readonly: true, data: { item_sales_target: "price" } %>
-        <%= item_form.hidden_field :_destroy %>
-        <button type="button" data-action="item-sales#removeItem" class="bg-red-600 text-white px-2 py-1 rounded mt-2">Eliminar</button>
-      </div>
-    <% end %>
-  </div>
+        <% item_form.object.errors[:product].each do |msg| %>
+          <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+        <% end %>
 
-  <div id="item-template" data-item-sales-target="template" class="hidden">
-    <%= form.fields_for :item_sales, ItemSale.new, child_index: "NEW_RECORD" do |item_form| %>
-      <div class="nested-fields border p-4 rounded bg-gray-100 mb-4">
-        <%= item_form.collection_select :product_id, Product.all, :id, :name, { prompt: "Seleccionar producto" }, class: "border rounded p-2 w-full", data: { action: "change->item-sales#updatePrice" } %>
         <%= item_form.number_field :quantity, min: 1, placeholder: "Cantidad", class: "border rounded p-2 w-full mt-2" %>
+        <% item_form.object.errors[:quantity].each do |msg| %>
+          <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+        <% end %>
+
         <%= item_form.number_field :unit_price, step: 0.01, placeholder: "Precio unitario", class: "border rounded p-2 w-full mt-2", readonly: true, data: { item_sales_target: "price" } %>
+        <% item_form.object.errors[:unit_price].each do |msg| %>
+          <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+        <% end %>
+
         <%= item_form.hidden_field :_destroy %>
         <button type="button" data-action="item-sales#removeItem" class="bg-red-600 text-white px-2 py-1 rounded mt-2">Eliminar</button>
       </div>

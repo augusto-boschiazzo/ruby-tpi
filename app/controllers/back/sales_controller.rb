@@ -1,5 +1,5 @@
 class Back::SalesController < BackController
-  before_action :set_sale, only: %i[ show cancel invoice ]
+  before_action :set_sale, only: %i[ cancel invoice ]
 
   def new
     @sale = Sale.new
@@ -9,6 +9,10 @@ class Back::SalesController < BackController
 
   def index
     @sales = Sale.includes(:client).order(sold_at: :desc).page(params[:page]).per(10) # Para la paginacion
+  end
+
+  def show
+    @sale = Sale.includes(:client, item_sales: :product).find(params[:id])
   end
 
   def create
