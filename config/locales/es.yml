@@ -1,88 +1,118 @@
 es:
-  activerecord:
+    activerecord:
+        errors:
+            messages:
+                record_invalid: "La validación falló: %{errors}"
+                restrict_dependent_destroy:
+                    has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+                    has_many: No se puede eliminar el registro porque existen %{record} dependientes
+        models:
+            product: Producto
+            product_category: Categoría
+            user: Usuario
+
+        attributes:
+            product:
+                name: Nombre
+                description: Descripción
+                author: Autor
+                price: Precio
+                status: Estado
+                product_type: Tipo
+                product_category_id: Categoría
+                stock: Stock
+                audio: Audio
+                images: Imágenes
+                recent: Nuevo
+                used: Usado
+                vinyl: Vinilo
+                cd: CD
+            user:
+                email: Email
+                role: Rol
+                password: Contraseña
+                password_confirmation: Confirmación de contraseña
+
     errors:
-      messages:
-        record_invalid: 'La validación falló: %{errors}'
-        restrict_dependent_destroy:
-          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
-          has_many: No se puede eliminar el registro porque existen %{record} dependientes
-    models:
-      product: Producto
-      product_category: Categoría
+        messages:
+            blank: no puede estar vacío
 
-    attributes:
-      product:
-        name: Nombre
-        description: Descripción
-        author: Autor
-        price: Precio
-        status: Estado
-        product_type: Tipo
-        product_category_id: Categoría
-        stock: Stock
-        audio: Audio
-        images: Imágenes
-        recent: Nuevo
-        used: Usado
-        vinyl: Vinilo
-        cd: CD
+    back:
+        products:
+            index:
+                title: Listado de productos
+                new: Nuevo producto
+            show:
+                title: Detalle del producto
+                edit: Editar
+                back: Volver
+            new:
+                title: Crear producto
+            edit:
+                title: Editar producto
+        users:
+            index:
+                title: Listado de usuarios
+            show:
+                title: Detalle del usuario
+            new:
+                title: Crear usuario
+            edit:
+                title: Editar usuario
 
-  errors:
-    messages:
-      blank: no puede estar vacío
-
-  back:
-    products:
-      index:
-        title: Listado de productos
-        new: Nuevo producto
-      show:
-        title: Detalle del producto
+    actions:
+        show: Ver
         edit: Editar
-        back: Volver
-      new:
-        title: Crear producto
-      edit:
-        title: Editar producto
+        new: Nuevo
+        destroy: Eliminar
+        save: Guardar
+        download: Descargar
+        cancel: Cancelar
+        back: Volver al listado
 
-  actions:
-    show: Ver
-    edit: Editar
-    new: Nuevo
-    destroy: Eliminar
-    save: Guardar
-    download: Descargar
-    cancel: Cancelar
-    back: Volver al listado
+    common:
+        confirmation: ¿Está seguro?
+        empty_list: No hay elementos disponibles para mostrar
 
-  common:
-    confirmation: ¿Está seguro?
-    empty_list: No hay elementos disponibles para mostrar
+    date:
+        day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+        abbr_day_names: [dom, lun, mar, mié, jue, vie, sáb]
+        month_names:
+            [
+                ~,
+                enero,
+                febrero,
+                marzo,
+                abril,
+                mayo,
+                junio,
+                julio,
+                agosto,
+                septiembre,
+                octubre,
+                noviembre,
+                diciembre,
+            ]
+        abbr_month_names:
+            [~, ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
+    time:
+        formats:
+            short: "%d/%m/%Y %H:%M"
+            long: "%A, %d de %B de %Y %H:%M"
 
-  date:
-      day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
-      abbr_day_names: [dom, lun, mar, mié, jue, vie, sáb]
-      month_names: [~, enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre]
-      abbr_month_names: [~, ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]        
-  time:
-    formats:
-      short: "%d/%m/%Y %H:%M"
-      long: "%A, %d de %B de %Y %H:%M"
-
-
-  helpers:
-    page_entries_info:
-      more_pages:
-        display_entries: Mostrando <b>%{first}&nbsp;-&nbsp;%{last}</b> %{entry_name} de <b>%{total}</b> en total
-      one_page:
-        display_entries:
-          one: Mostrando <b>%{count}</b> %{entry_name}
-          other: Mostrando <b>un total de %{count}</b> %{entry_name}
-          zero: No se han encontrado %{entry_name}
-  views:
-    pagination:
-      first: "&laquo; Primera"
-      last: "Última &raquo;"
-      next: Siguiente &rsaquo;
-      previous: "&lsaquo; Anterior"
-      truncate: "&hellip;"
+    helpers:
+        page_entries_info:
+            more_pages:
+                display_entries: Mostrando <b>%{first}&nbsp;-&nbsp;%{last}</b> %{entry_name} de <b>%{total}</b> en total
+            one_page:
+                display_entries:
+                    one: Mostrando <b>%{count}</b> %{entry_name}
+                    other: Mostrando <b>un total de %{count}</b> %{entry_name}
+                    zero: No se han encontrado %{entry_name}
+    views:
+        pagination:
+            first: "&laquo; Primera"
+            last: "Última &raquo;"
+            next: Siguiente &rsaquo;
+            previous: "&lsaquo; Anterior"
+            truncate: "&hellip;"

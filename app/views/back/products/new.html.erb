@@ -1,9 +1,9 @@
 <% content_for :title, "New product" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl"><%= t('.title') %></h1>
+<div class="md:w-2/3 w-full mx-auto py-16">
+    <h1 class="font-bold text-4xl"><%= t('.title') %></h1>
 
-  <%= render "form", product: @product %>
+    <%= render "form", product: @product %>
 
-  <%= back_button(products_path) %>
+    <%= back_button(products_path) %>
 </div>

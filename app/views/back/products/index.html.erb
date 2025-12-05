@@ -1,30 +1,26 @@
-<% content_for :title, "Products" %>
+<% content_for :title, "Productos" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<div class="w-full max-w-6xl mx-auto py-8 space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="font-bold text-4xl"><%= t('.title') %></h1>
+        <%= new_button(new_product_path) %>
+    </div>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl"><%= t('.title') %></h1>
-    <%= new_button(new_product_path) %>
-  </div>
-
-  <div id="products" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @products.any? %>
-      <% @products.each do |product| %>
+    <div id="products" class="min-w-full divide-y divide-gray-200 space-y-5">
+        <% if @products.any? %>
+        <% @products.each do |product| %>
         <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render product %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= show_button(product) %>
-            <%= edit_button(edit_product_path(product)) %>
-            <%= destroy_button(product) %>
-          </div>
+            <%= render product %>
+            <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
+                <%= show_button(product) %>
+                <%= edit_button(edit_product_path(product)) %>
+                <%= destroy_button(product) %>
+            </div>
         </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10"><%= t('common.empty_list') %>.</p>
-    <% end %>
-    <%= paginate @products %>
-  </div>
+        <% end %>
+        <% else %>
+        <p class="text-center my-10"><%= t('common.empty_list') %>.</p>
+        <% end %>
+        <%= paginate @products %>
+    </div>
 </div>

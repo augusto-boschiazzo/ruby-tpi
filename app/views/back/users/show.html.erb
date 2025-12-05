@@ -1,0 +1,13 @@
+<% content_for :title, t('.title') %>
+
+<div class="md:w-2/3 w-full mx-auto space-y-6 py-12">
+    <h1 class="text-4xl font-bold text-slate-900"><%= t('.title') %></h1>
+
+    <%= render @user %>
+
+    <div class="flex flex-wrap gap-3">
+        <%= edit_button(edit_admin_user_path(@user)) %>
+        <%= back_button(admin_users_path) %>
+        <%= destroy_form_button([:admin, @user]) %>
+    </div>
+</div>
