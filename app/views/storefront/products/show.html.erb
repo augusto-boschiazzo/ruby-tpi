@@ -1,0 +1,64 @@
+<div class="max-w-6xl mx-auto p-6">
+
+  <%= link_to "← Volver al catálogo", 
+      storefront_products_path,
+      class: "text-blue-600 hover:underline mb-6 inline-block" %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- Imagen -->
+    <div>
+      <% if @product.images.attached? %>
+        <%= image_tag @product.images.first, class: "w-full rounded-xl shadow" %>
+      <% else %>
+        <div class="h-96 bg-gray-200 flex items-center justify-center rounded-xl">
+          Sin imagen
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Info -->
+    <div>
+      <h1 class="text-3xl font-bold mb-3"><%= @product.name %></h1>
+
+      <p class="text-lg text-gray-700 mb-2">
+        <strong>Autor:</strong> <%= @product.author %>
+      </p>
+
+      <p class="text-lg text-gray-700 mb-2">
+        <strong>Año:</strong> <%= @product.year %>
+      </p>
+
+      <p class="text-2xl font-bold mt-4">
+        $ <%= @product.price %>
+      </p>
+
+      <% if @product.audio.attached? %>
+        <audio class="w-full mt-6" controls>
+          <source src="<%= url_for(@product.audio) %>">
+        </audio>
+      <% end %>
+
+      <p class="mt-6 text-gray-700">
+        <%= @product.description %>
+      </p>
+    </div>
+
+  </div>
+  <% if @related_products.any? %>
+    <div class="mt-16">
+
+        <h2 class="text-2xl font-bold mb-6">
+        Discos relacionados
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <% @related_products.each do |product| %>
+            <%= render partial: "storefront/products/card_product",
+                    locals: { product: product } %>
+        <% end %>
+        </div>
+
+    </div>
+    <% end %>
+</div>
