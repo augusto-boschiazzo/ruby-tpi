@@ -206,4 +206,3 @@ audio_samples.each do |product_name, file_name|
     puts "No se encontró: #{audio_path}"
   end
 end
-
