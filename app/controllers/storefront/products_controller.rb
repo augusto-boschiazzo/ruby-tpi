@@ -8,14 +8,14 @@ class Storefront::ProductsController < ApplicationController
         @products = @products.where(product_type: params[:types]) if params[:types].present?
         @products = @products.where(status: params[:statuses]) if params[:statuses].present?
         if params[:query].present?
-            params[:query].downcase.split.each do |word| 
+            params[:query].downcase.split.each do |word|
                 @products = @products.where(
                     "LOWER(name) LIKE :q OR LOWER(author) LIKE :q",
                 q: "%#{word}%"
             )
             end
         end
-        
+
         if params[:year_from].present? || params[:year_to].present?
 
             error_message = nil
@@ -42,7 +42,6 @@ class Storefront::ProductsController < ApplicationController
             flash.now[:alert] = error_message if error_message.present?
 
         end
-
     end
     def show
         @product = Product
@@ -61,5 +60,4 @@ class Storefront::ProductsController < ApplicationController
             )
             .limit(6)
     end
-
 end

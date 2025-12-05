@@ -10,9 +10,8 @@ class Sale < ApplicationRecord
 
   accepts_nested_attributes_for :client
   accepts_nested_attributes_for :item_sales, allow_destroy: true
-  validates_associated :item_sales
   validates :sold_at, :total_amount, presence: true
-  validate :must_have_items
+  validate :must_have_items, on: :create
 
   after_create :discount_stock!
 

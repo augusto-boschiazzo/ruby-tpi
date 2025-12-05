@@ -8,12 +8,20 @@ Rails.application.routes.draw do
       patch :cancel, on: :member
       get :invoice, on: :member
     end
+
+    resources :reports, only: [] do
+      collection do
+        get :sales_summary
+        get :top_products
+        get :sales_by_employee
+      end
+    end
   end
 
   namespace :storefront do
-    resources :products, only: [:index, :show]
+    resources :products, only: [ :index, :show ]
   end
-  
+
   namespace :admin, module: "back", as: "admin" do
     resources :users
   end

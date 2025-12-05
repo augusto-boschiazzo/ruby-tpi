@@ -23,7 +23,7 @@ products = [
     description: "Disco clásico de Bob Marley",
     author: "Bob Marley",
     price: 20,
-    year: 1985,
+    stock: 2,
     product_type: "cd",
     product_category: regg,
     status: "used"
@@ -145,24 +145,6 @@ products.each do |attrs|
   end
 end
 
-[
-  { name: "Ana Martínez", dni: "12345678", email: "ana.martinez@example.com" },
-  { name: "Carlos Gómez", dni: "23456789", email: "carlos.gomez@example.com" },
-  { name: "Lucía Fernández", dni: "34567890", email: "lucia.fernandez@example.com" },
-  { name: "Martín Rodríguez", dni: "45678901", email: "martin.rodriguez@example.com" },
-  { name: "Sofía López", dni: "56789012", email: "sofia.lopez@example.com" },
-  { name: "Julián Torres", dni: "67890123", email: "julian.torres@example.com" },
-  { name: "Valentina Ruiz", dni: "78901234", email: "valentina.ruiz@example.com" },
-  { name: "Diego Castro", dni: "89012345", email: "diego.castro@example.com" },
-  { name: "Camila Herrera", dni: "90123456", email: "camila.herrera@example.com" },
-  { name: "Federico Sosa", dni: "01234567", email: "federico.sosa@example.com" }
-].each do |attrs|
-  Client.find_or_create_by!(dni: attrs[:dni]) do |client|
-    client.name  = attrs[:name]
-    client.email = attrs[:email]
-  end
-end
-
 users = [
   {
     name: "Admin",
@@ -224,4 +206,3 @@ audio_samples.each do |product_name, file_name|
     puts "No se encontró: #{audio_path}"
   end
 end
-
