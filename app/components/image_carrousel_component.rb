@@ -1,4 +1,4 @@
-# app/components/image_carousel_component.rb
+# app/components/image_carrousel_component.rb
 class ImageCarrouselComponent < ViewComponent::Base
   def initialize(images:, current_index: 0, product:)
     @images = images
