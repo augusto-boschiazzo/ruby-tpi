@@ -1,8 +1,7 @@
 <%= extends :application do %>
-<aside class="w-64 h-full fixed top-16 left-0 bg-white text-gray-800 shadow-lg flex flex-col">
+<aside class="w-64 h-full fixed top-16 left-0 bg-white text-gray-800 shadow-lg flex flex-col z-100">
     <nav class="flex flex-col flex-1 p-4 space-y-2">
         <%= link_to "Productos", products_path, class: "block px-4 py-2 rounded-lg hover:bg-gray-100 transition" %>
-        <%= link_to "Categorías", "#categorias", class: "block px-4 py-2 rounded-lg hover:bg-gray-100 transition" %>
         <% unless current_user&.employee? %>
         <%= link_to "Usuarios", admin_users_path, class: "block px-4 py-2 rounded-lg hover:bg-gray-100 transition" %>
         <% end %>

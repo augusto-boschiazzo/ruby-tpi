@@ -22,7 +22,7 @@
                     <p class="text-xs uppercase tracking-widest text-slate-500">Rol: <%= (@user.role&.humanize.presence || "Sin rol") %></p>
                 </div>
                 <div class="space-y-2 border-t border-slate-200 pt-3">
-                    <%= link_to "Ir a administración", products_path, class: "flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50" %>
+                    <%= link_to "Ir a administración", "/admin", class: "flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50" %>
                     <%= button_to destroy_user_session_path, method: :delete, class: "w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 cursor-pointer", data: { turbo: false } do %>
                     Cerrar sesión
                     <% end %>
