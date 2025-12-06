@@ -1,6 +1,6 @@
 <article class="product-card group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg transition hover:-translate-y-1 hover:shadow-2xl <%= [size_classes, classes].reject(&:blank?).join(" ") %>">
     <div class="relative aspect-square w-full overflow-hidden bg-slate-200">
-        <%= image_tag cover_image, alt: cover_alt, class: "h-full w-full object-cover transition duration-500 group-hover:scale-105" %>
+        <%# image_tag cover_image, alt: cover_alt, class: "h-full w-full object-cover transition duration-500 group-hover:scale-105" %>
 
         <div class="absolute right-4 top-4 flex flex-col items-end gap-2 text-sm font-semibold uppercase tracking-wide">
             <span class="rounded-full px-3 py-1 text-xs <%= condition_classes %>"><%= condition_label %></span>
