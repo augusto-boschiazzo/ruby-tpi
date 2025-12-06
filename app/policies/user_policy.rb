@@ -16,7 +16,9 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    elevated?
+    return true if user&.admin?
+
+    user&.manager? && !record&.admin?
   end
 
   def edit?
