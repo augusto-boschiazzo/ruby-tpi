@@ -37,7 +37,7 @@ module ApplicationHelper
     layout = layout.to_s
 
     # Agregar prefijo de layouts si no está presente
-    layout = "layouts/#{layout}" unless layout.include?('/')
+    layout = "layouts/#{layout}" unless layout.include?("/")
 
     # Reemplazar el contenido del layout con el bloque dado
     @view_flow.get(:layout).replace capture(&block)

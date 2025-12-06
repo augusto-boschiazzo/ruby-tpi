@@ -1,6 +1,6 @@
 class Back::UsersController < BackController
     before_action :set_user, only: %i[ show edit update destroy ]
-    
+
     # GET /users or /users.json
     def index
         authorize User
@@ -18,7 +18,7 @@ class Back::UsersController < BackController
 
         @users = scope.page(params[:page]).per(@per_page)
     end
-    
+
     # GET /users/1 or /users/1.json
     def show
         authorize @user
@@ -28,14 +28,14 @@ class Back::UsersController < BackController
         format.json { render json: @user.slice(:id, :email) }
         end
     end
-    
+
     # GET /users/new
     def new
         @user = User.new
-    
+
         authorize @user
     end
-    
+
     # GET /users/1/edit
     def edit
         authorize @user
@@ -44,9 +44,9 @@ class Back::UsersController < BackController
     # POST /users or /users.json
     def create
         @user = User.new(user_params)
-    
+
         authorize @user
-    
+
         respond_to do |format|
         if @user.save
             format.html { redirect_to admin_user_path(@user), notice: "User was successfully created." }
@@ -97,11 +97,11 @@ class Back::UsersController < BackController
 
     # Only allow a list of trusted parameters through.
     def user_params
-    permitted = [:name, :last_name, :email]
+    permitted = [ :name, :last_name, :email ]
         permitted << :role if current_user&.admin?
 
         include_passwords = action_name == "create" || current_user == @user
-        permitted += [:password, :password_confirmation] if include_passwords
+        permitted += [ :password, :password_confirmation ] if include_passwords
 
         attrs = params.require(:user).permit(permitted)
 

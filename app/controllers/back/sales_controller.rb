@@ -1,5 +1,5 @@
 class Back::SalesController < BackController
-  before_action :set_sale, only: %i[ show ]
+  before_action :set_sale, only: %i[ cancel invoice ]
 
   def new
     @sale = Sale.new
@@ -8,7 +8,11 @@ class Back::SalesController < BackController
   end
 
   def index
-    @sales = Sale.includes(:client).order(sold_at: :desc)
+    @sales = Sale.includes(:client).order(sold_at: :desc).page(params[:page]).per(10) # Para la paginacion
+  end
+
+  def show
+    @sale = Sale.includes(:client, item_sales: :product).find(params[:id])
   end
 
   def create
@@ -50,7 +54,7 @@ class Back::SalesController < BackController
       format.html
       format.pdf do
         render pdf: "invoice_#{@sale.id}",
-              template: "sales/invoice",
+              template: "back/sales/invoice",
               layout: "pdf",
               formats: [ :html ], # Sin esto rails lo intenta renderizar como pdf directamente y falla
               encoding: "UTF-8"

@@ -1,26 +1,35 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Bloquea o habilita el campo de audio según el estado del producto
 export default class extends Controller {
   static targets = ["status", "audioInput", "stockInput"]
 
   connect() {
-    this.toggleAudioInput()
+    this.userChangedStatus = false
+    this.updateUI()
   }
 
+  // Se llama cuando cambia el select de status
   toggleAudioInput() {
+    this.userChangedStatus = true
+
     const isUsed = this.statusTarget.value === "used"
+
+    if (isUsed) {
+      // Si pasa a usado → borrar stock
+      this.stockInputTarget.value = ""
+    }
+
+    this.updateUI()
+  }
+
+  updateUI() {
+    const isUsed = this.statusTarget.value === "used"
+
     this.audioInputTarget.disabled = !isUsed
     this.stockInputTarget.disabled = isUsed
-    if (!isUsed) {
-      this.audioInputTarget.value = "" // limpia el archivo si se cambia a "nuevo"
-      this.audioInputTarget.style.backgroundColor = "gainsboro"
-      this.stockInputTarget.value = ""
-      this.stockInputTarget.style.backgroundColor = ""
-    } else {
-      this.stockInputTarget.value = ""
-      this.stockInputTarget.style.backgroundColor = "gainsboro"
-      this.audioInputTarget.style.backgroundColor = ""
-    }
+
+    // Estilos opcionales
+    this.audioInputTarget.style.backgroundColor = isUsed ? "" : "gainsboro"
+    this.stockInputTarget.style.backgroundColor = isUsed ? "gainsboro" : ""
   }
 }
