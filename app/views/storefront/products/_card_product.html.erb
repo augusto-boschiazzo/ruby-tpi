@@ -43,37 +43,3 @@
 <% end %>
 
 <% end %>
-
-<!-- Nombre del disco -->
-<h2 class="text-lg font-semibold mt-3">
-    <%= product.name %>
-</h2>
-
-<!-- Autor -->
-<p class="text-sm text-gray-600">
-    <%= product.author %>
-</p>
-
-<!-- Descripción breve -->
-<p class="mt-2 text-gray-700 text-sm">
-    <%= truncate(product.description, length: 80) %>
-</p>
-
-
-<!-- Precio -->
-<p class="text-xl font-bold mt-3">
-    $ <%= product.price %>
-</p>
-
-<!-- Stock (solo si es nuevo) -->
-<% if product.recent? %>
-<p class="text-sm mt-1 <%= product.stock > 0 ? 'text-green-600' : 'text-red-600' %>">
-    Stock: <%= product.stock %>
-</p>
-<% else %>
-<p class="text-sm mt-1 text-blue-600">
-    Usado
-</p>
-<% end %>
-
-<% end %>
