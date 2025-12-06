@@ -9,17 +9,17 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get sales_summary" do
-    get sales_summary_reports_url
+  get sales_summary_admin_reports_url
     assert_response :success
   end
 
   test "should get top_products" do
-    get top_products_reports_url
+  get top_products_admin_reports_url
     assert_response :success
   end
 
   test "should get sales_by_employee" do
-    get sales_by_employee_reports_url
+  get sales_by_employee_admin_reports_url
     assert_response :success
   end
 end
