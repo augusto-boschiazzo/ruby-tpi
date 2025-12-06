@@ -205,4 +205,20 @@ audio_samples.each do |product_name, file_name|
   else
     puts "No se encontró: #{audio_path}"
   end
+
+  product = Product.find_by(name: "Survival")
+
+  if product
+    Dir[Rails.root.join("db/seed/images/survival*")].each do |path|
+
+      product.images.attach(
+        io: File.open(path),
+        filename: File.basename(path),
+        content_type: Marcel::MimeType.for(Pathname.new(path))
+      )
+
+      puts "Imagen #{File.basename(path)} agregada"
+    end
+  end
+
 end
