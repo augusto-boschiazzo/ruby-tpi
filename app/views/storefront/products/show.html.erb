@@ -6,10 +6,13 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <!-- Imagen -->
-        <div>
+        <div class="w-full">
             <% if @product.images.attached? %>
-            <%= image_tag @product.images.first, class: "w-full rounded-xl shadow" %>
+            <%= render ImageCarrouselComponent.new(
+        images: @product.images,
+        current_index: params[:img] || 0,
+        product: @product
+      ) %>
             <% else %>
             <div class="h-96 bg-gray-200 flex items-center justify-center rounded-xl">
                 Sin imagen
