@@ -5,7 +5,18 @@ class Back::ProductsController < BackController
   def index
     authorize Product
 
-    @products = Product.includes(:product_category, :images_attachments, :audio_attachment).page(params[:page]).per(params[:per_page])
+    @query = params[:query].to_s.strip
+    @per_page = params[:per_page].presence&.to_i
+    @per_page = 15 unless @per_page&.positive?
+    @per_page = 100 if @per_page > 100
+
+    scope = Product.order(created_at: :desc)
+    if @query.present?
+      term = "%#{@query.downcase}%"
+      scope = scope.where("LOWER(name) LIKE ?", term)
+    end
+
+    @products = scope.page(params[:page]).per(@per_page)
   end
 
   # GET /products/1 or /products/1.json
@@ -79,7 +90,7 @@ class Back::ProductsController < BackController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
-      @product = Product.find(params.expect(:id))
+      @product = Product.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
