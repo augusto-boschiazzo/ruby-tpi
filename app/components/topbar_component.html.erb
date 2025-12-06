@@ -4,7 +4,7 @@
     <span class="text-(--accent) transition-colors duration-300" data-topbar-target="brand">Records</span>OnRails
     <% end %>
     <nav class="flex items-center gap-4">
-        <%= link_to "Explorar", storefront_products_path, class: "text-sm font-semibold bg-(--accent) text-white rounded-full px-4 py-2 transition hover:scale-105" %>
+        <%= link_to "Explorar", products_path, class: "text-sm font-semibold bg-(--accent) text-white rounded-full px-4 py-2 transition hover:scale-105" %>
         <% if helpers.user_signed_in? %>
         <div class="relative">
             <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-white shadow-md px-4 py-2 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-(--accent) cursor-pointer" data-topbar-target="menuButton" data-action="click->topbar#toggleMenu" aria-haspopup="true" aria-expanded="false">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="space-y-2 border-t border-slate-200 pt-3">
-                    <%= link_to "Ir a administración", "/admin", class: "flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50" %>
+                    <%= link_to "Ir a administración", admin_dashboard_path, class: "flex w-full items-center justify-between rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50" %>
                     <%= button_to destroy_user_session_path, method: :delete, class: "w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 cursor-pointer", data: { turbo: false } do %>
                     Cerrar sesión
                     <% end %>

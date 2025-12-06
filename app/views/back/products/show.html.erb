@@ -6,7 +6,7 @@
 
     <%= render @product %>
 
-    <%= edit_button(edit_product_path(@product)) %>
-    <%= back_button(products_path)%>
-    <%= destroy_form_button(@product) %>
+    <%= edit_button(edit_admin_product_path(@product)) %>
+    <%= back_button(admin_products_path)%>
+    <%= destroy_form_button([:admin, @product]) %>
 </div>
