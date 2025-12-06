@@ -6,9 +6,9 @@
                         pause_on_hover: true,
                         show_arrows: false,
                         images: [
-                            { src: asset_path("carousel/image1.jpeg"), alt: "Vinilo", title: "Vinilos", description: "Comprá vinilos exclusivos", link: "#vinilo" },
-                            { src: asset_path("carousel/image2.jpeg"), alt: "CD", title: "CDs", description: "Explorá nuestra colección de CDs", link: "#cds" },
-                            { src: asset_path("carousel/image3.jpeg"), alt: "CDs usados", title: "Nuevos y usados", description: "Encontrá CDs y vinilos nuevos o usados", link: "#nuevos-usados" }
+                            { src: asset_path("carousel/image1.jpeg"), alt: "Vinilo", title: "Vinilos", description: "Comprá vinilos exclusivos", link: "/storefront/products?action=index&controller=storefront%2Fproducts&types[]=vinyl" },
+                            { src: asset_path("carousel/image2.jpeg"), alt: "CD", title: "CDs", description: "Explorá nuestra colección de CDs", link: "/storefront/products?action=index&controller=storefront%2Fproducts&types[]=cd" },
+                            { src: asset_path("carousel/image3.jpeg"), alt: "CDs usados", title: "Nuevos y usados", description: "Encontrá CDs y vinilos nuevos o usados", link: "/storefront/products?action=index&controller=storefront%2Fproducts&statuses[]=recent&statuses[]=used" }
                         ]
                     )
                 ) %>
