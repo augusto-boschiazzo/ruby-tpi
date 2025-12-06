@@ -1,7 +1,7 @@
 class Back::AdminController < BackController
 
     def index
-      authorize :user
+      authorize :admin
     end
 
 end

@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     resources :products, only: [ :index, :show ]
   end
 
+  resource :profile, only: [ :show, :update ]
+
   namespace :admin, module: "back", as: "admin" do
     resources :users
   end
