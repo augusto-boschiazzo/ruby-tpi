@@ -9,14 +9,14 @@ class SalesControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     sign_in @user
 
-    get sales_url
+  get admin_sales_url
     assert_response :success
   end
 
   test "should get new" do
     sign_in @user
 
-    get new_sale_url
+  get new_admin_sale_url
     assert_response :success
   end
 
@@ -27,7 +27,7 @@ class SalesControllerTest < ActionDispatch::IntegrationTest
     item_sales_attributes = { "0": item_sales(:one).attributes.slice("product_id", "quantity", "unit_price") }
 
     assert_difference("Sale.count") do
-      post sales_url, params: {
+  post admin_sales_url, params: {
         sale: {
           user_id: @sale.user_id,
           client_attributes: client_attributes,
@@ -36,13 +36,13 @@ class SalesControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to sale_url(Sale.last)
+  assert_redirected_to admin_sale_url(Sale.last)
   end
 
   test "should show sale" do
     sign_in @user
 
-    get sale_url(@sale)
+  get admin_sale_url(@sale)
     assert_response :success
   end
 end

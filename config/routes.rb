@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  scope module: "back" do
+  scope :admin, module: "back", as: "admin" do
     resources :products
 
     resources :sales, only: [ :index, :show, :new, :create ] do
@@ -16,15 +16,16 @@ Rails.application.routes.draw do
         get :sales_by_employee
       end
     end
-  end
 
-  namespace :storefront do
-    resources :products, only: [ :index, :show ]
-  end
-
-  namespace :admin, module: "back", as: "admin" do
     resources :users
+    get "/", to: "admin#index", as: :dashboard
   end
+
+  resources :products, only: [ :index, :show ], module: "storefront"
+
+  resource :profile, only: [ :show, :update ]
+
+  # Legacy route removed in favor of admin scope above
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

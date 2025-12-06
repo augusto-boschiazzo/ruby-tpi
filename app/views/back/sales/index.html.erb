@@ -3,7 +3,7 @@
 <div class="w-full max-w-6xl mx-auto py-8">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-3xl font-bold">Ventas realizadas</h1>
-        <%= link_to "Registrar venta", new_sale_path,
+        <%= link_to "Registrar venta", new_admin_sale_path,
         class: "bg-blue-600 hover:bg-blue-500 text-white font-medium px-4 py-2 rounded-md" %>
     </div>
 
@@ -34,7 +34,7 @@
                     <% end %>
                 </td>
                 <td class="px-4 py-2">
-                    <%= link_to "Ver detalle", sale_path(sale),
+                    <%= link_to "Ver detalle", admin_sale_path(sale),
                   class: "text-blue-600 hover:underline font-medium" %>
                 </td>
             </tr>

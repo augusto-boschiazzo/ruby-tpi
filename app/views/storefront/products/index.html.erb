@@ -1,130 +1,128 @@
-<h1 class="text-2xl font-bold mb-6">Discos disponibles</h1>
-
-<div class="flex gap-8">
-
-  <!-- SIDEBAR -->
-  <aside class="w-64 bg-gray-100 p-4 rounded-xl">
+<!-- SIDEBAR -->
+<aside class="w-64 bg-gray-100 p-4 rounded-xl fixed left-8 top-32">
 
     <!-- BUSCADOR: Título/Artista -->
-  <div class="mb-6">
-    <h3 class="text-lg font-semibold mb-2">Buscar</h3>
-    <%= form_with url: storefront_products_path, method: :get, local: true, scope: nil do %>
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">Buscar</h3>
+        <%= form_with url: products_path, method: :get, local: true, scope: nil do %>
 
 
-      <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
 
-        <%= text_field_tag :query,
-            params[:query],
-            placeholder: "Título o artista...",
+            <%= text_field_tag :query,
+        params[:query],
+        placeholder: "Título o artista...",
+        class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
+
+            <% if flash[:alert] %>
+            <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-lg text-center font-semibold">
+                <%= flash[:alert] %>
+            </div>
+            <% end %>
+
+            <div class="grid grid-cols-2 gap-2">
+                <%= text_field_tag :year_from,
+            params[:year_from],
+            placeholder: "Desde",
             class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
-        
-        <% if flash[:alert] %>
-          <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-lg text-center font-semibold">
-            <%= flash[:alert] %>
-          </div>
-        <% end %>
 
-        <div class="grid grid-cols-2 gap-2">
-          <%= text_field_tag :year_from,
-                params[:year_from],
-                placeholder: "Desde",
-                class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
+                <%= text_field_tag :year_to,
+            params[:year_to],
+            placeholder: "Hasta",
+            class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
+            </div>
 
-          <%= text_field_tag :year_to,
-                params[:year_to],
-                placeholder: "Hasta",
-                class: "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" %>
+            <% Array(params[:categories]).each do |c| %>
+            <%= hidden_field_tag "categories[]", c %>
+            <% end %>
+
+            <% Array(params[:types]).each do |t| %>
+            <%= hidden_field_tag "types[]", t %>
+            <% end %>
+
+            <% Array(params[:statuses]).each do |s| %>
+            <%= hidden_field_tag "statuses[]", s %>
+            <% end %>
+
+            <%= submit_tag "Buscar",
+        name: nil,
+        class: "bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition" %>
+
+            <%= link_to "Limpiar filtros", products_path, 
+        class: "bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition text-center font-medium" %>
+
         </div>
 
-        <% Array(params[:categories]).each do |c| %>
-          <%= hidden_field_tag "categories[]", c %>
         <% end %>
 
-        <% Array(params[:types]).each do |t| %>
-          <%= hidden_field_tag "types[]", t %>
-        <% end %>
+        <!-- ACCORDEON: Categorías -->
+        <details class="mb-4" <%= "open" if params[:categories].present? %>>
+            <summary class="cursor-pointer text-lg font-semibold">Categorías</summary>
 
-        <% Array(params[:statuses]).each do |s| %>
-          <%= hidden_field_tag "statuses[]", s %>
-        <% end %>
+            <div class="mt-2 ml-2 space-y-1">
+                <% ProductCategory.all.each do |cat| %>
 
-        <%= submit_tag "Buscar",
-            name: nil,
-            class: "bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition" %>
-      
-          <%= link_to "Limpiar filtros", storefront_products_path, 
-            class: "bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition text-center font-medium" %>
+                <% active = active_filter?(:categories, cat.id) %>
 
-      </div>
+                <%= link_to cat.name,
+    products_path(toggle_filter(:categories, cat.id)),
+                class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+                <% end %>
+            </div>
+        </details>
 
-    <% end %>
 
-    <!-- ACCORDEON: Categorías -->
-    <details class="mb-4" <%= "open" if params[:categories].present? %>>
-        <summary class="cursor-pointer text-lg font-semibold">Categorías</summary>
+        <!-- TIPOS -->
+        <details class="mb-4" <%= "open" if params[:types].present? %>>
+            <summary class="cursor-pointer text-lg font-semibold">Tipos</summary>
 
-        <div class="mt-2 ml-2 space-y-1">
-            <% ProductCategory.all.each do |cat| %>
+            <div class="mt-2 ml-2 space-y-1">
+                <% Product.product_types.each do |value, _| %>
+                <% active = active_filter?(:types, value) %>
 
-            <% active = active_filter?(:categories, cat.id) %>
+                <%= link_to Product.human_attribute_name(value),
+    products_path(toggle_filter(:types, value)),
+          class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+                <% end %>
+            </div>
+        </details>
 
-            <%= link_to cat.name,
-                    storefront_products_path(toggle_filter(:categories, cat.id)),
-                    class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+        <!-- ACCORDEON: Estado -->
+        <details class="mb-4" <%= "open" if params[:statuses].present? %>>
+            <summary class="cursor-pointer text-lg font-semibold">Estado</summary>
+
+            <div class="mt-2 ml-2 space-y-1">
+                <% Product.statuses.each_key do |value| %>
+                <% active = active_filter?(:statuses, value) %>
+
+                <%= link_to value.humanize,
+    products_path(toggle_filter(:statuses, value)),
+                class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
+                <% end %>
+            </div>
+
+        </details>
+
+
+</aside>
+
+<div class="flex flex-col gap-8 mt-12 ml-72">
+    <h1 class="text-2xl font-bold mb-6">Discos disponibles</h1>
+
+    <!-- LISTA DE PRODUCTOS -->
+    <div class="flex-1">
+
+        <% if @products.empty? %>
+        <div class="p-6 bg-red-100 text-red-700 rounded-xl text-center">
+            No hay productos disponibles con los filtros seleccionados.
+        </div>
+        <% else %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <% @products.each do |product| %>
+            <%= render partial: "card_product", locals: { product: product } %>
             <% end %>
         </div>
-    </details>
-
-
-    <!-- TIPOS -->
-    <details class="mb-4" <%= "open" if params[:types].present? %>>
-      <summary class="cursor-pointer text-lg font-semibold">Tipos</summary>
-
-      <div class="mt-2 ml-2 space-y-1">
-        <% Product.product_types.each do |value, _| %>
-          <% active = active_filter?(:types, value) %>
-
-          <%= link_to Product.human_attribute_name(value),
-              storefront_products_path(toggle_filter(:types, value)),
-              class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
         <% end %>
-      </div>
-    </details>
 
-    <!-- ACCORDEON: Estado -->
-    <details class="mb-4" <%= "open" if params[:statuses].present? %>>
-        <summary class="cursor-pointer text-lg font-semibold">Estado</summary>
-
-        <div class="mt-2 ml-2 space-y-1">
-            <% Product.statuses.each_key do |value| %>
-            <% active = active_filter?(:statuses, value) %>
-
-            <%= link_to value.humanize,
-                    storefront_products_path(toggle_filter(:statuses, value)),
-                    class: "block px-2 py-1 rounded #{active ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}" %>
-            <% end %>
-        </div>
-
-    </details>
-
-
-  </aside>
-
-
-  <!-- LISTA DE PRODUCTOS -->
-  <div class="flex-1">
-
-    <% if @products.empty? %>
-      <div class="p-6 bg-red-100 text-red-700 rounded-xl text-center">
-        No hay productos disponibles con los filtros seleccionados.
-      </div>
-    <% else %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <% @products.each do |product| %>
-          <%= render partial: "card_product", locals: { product: product } %>
-        <% end %>
-      </div>
-    <% end %>
-
-  </div>
+    </div>
 </div>

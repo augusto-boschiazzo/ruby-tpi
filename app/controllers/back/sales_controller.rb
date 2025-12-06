@@ -31,8 +31,8 @@ class Back::SalesController < BackController
 
     respond_to do |format|
       if @sale.save
-        format.html { redirect_to @sale, notice: "Venta creada con éxito." }
-        format.json { render :show, status: :created, location: @sale }
+  format.html { redirect_to admin_sale_path(@sale), notice: "Venta creada con éxito." }
+  format.json { render :show, status: :created, location: admin_sale_path(@sale) }
       else
         @sale.build_client unless @sale.client
         @sale.item_sales.build if @sale.item_sales.empty?
@@ -45,7 +45,7 @@ class Back::SalesController < BackController
   def cancel
     @sale = Sale.find(params[:id])
     @sale.cancel!
-    redirect_to @sale, notice: "Venta cancelada y stock restaurado."
+  redirect_to admin_sale_path(@sale), notice: "Venta cancelada y stock restaurado."
   end
 
   def invoice

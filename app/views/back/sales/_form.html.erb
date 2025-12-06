@@ -1,60 +1,60 @@
-<%= form_with(model: sale, class: "contents", data: { controller: "item-sales" }) do |form| %>
+<%= form_with(model: [:admin, sale], class: "contents", data: { controller: "item-sales" }) do |form| %>
 
-  <% if sale.errors[:base].any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(sale.errors[:base].count, "error") %> impidieron guardar la venta:</h2>
-      <ul class="list-disc ml-6">
+<% if sale.errors[:base].any? %>
+<div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+    <h2><%= pluralize(sale.errors[:base].count, "error") %> impidieron guardar la venta:</h2>
+    <ul class="list-disc ml-6">
         <% sale.errors[:base].each do |msg| %>
-          <li><%= msg %></li>
+        <li><%= msg %></li>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
+    </ul>
+</div>
+<% end %>
 
-  <h2 class="text-lg font-bold mb-2">Datos del cliente</h2>
-  <%= form.fields_for :client do |fc| %>
-    <div class="my-5">
-      <%= fc.label :name, "Nombre" %>
-      <%= fc.text_field :name, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
-      <% fc.object.errors[:name].each do |msg| %>
-        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
-      <% end %>
-    </div>
+<h2 class="text-lg font-bold mb-2">Datos del cliente</h2>
+<%= form.fields_for :client do |fc| %>
+<div class="my-5">
+    <%= fc.label :name, "Nombre" %>
+    <%= fc.text_field :name, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+    <% fc.object.errors[:name].each do |msg| %>
+    <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+    <% end %>
+</div>
 
-    <div class="my-5">
-      <%= fc.label :dni, "DNI" %>
-      <%= fc.text_field :dni, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
-      <% fc.object.errors[:dni].each do |msg| %>
-        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
-      <% end %>
-    </div>
+<div class="my-5">
+    <%= fc.label :dni, "DNI" %>
+    <%= fc.text_field :dni, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+    <% fc.object.errors[:dni].each do |msg| %>
+    <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+    <% end %>
+</div>
 
-    <div class="my-5">
-      <%= fc.label :email, "Email" %>
-      <%= fc.email_field :email, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
-      <% fc.object.errors[:email].each do |msg| %>
-        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
-      <% end %>
-    </div>
-  <% end %>
+<div class="my-5">
+    <%= fc.label :email, "Email" %>
+    <%= fc.email_field :email, class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+    <% fc.object.errors[:email].each do |msg| %>
+    <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+    <% end %>
+</div>
+<% end %>
 
-  <h2 class="text-lg font-bold mb-2">Productos vendidos</h2>
+<h2 class="text-lg font-bold mb-2">Productos vendidos</h2>
 
-  <div data-item-sales-target="container">
+<div data-item-sales-target="container">
     <%= form.fields_for :item_sales do |item_form| %>
-      <div class="nested-fields border p-4 rounded bg-gray-50 mb-4">
+    <div class="nested-fields border p-4 rounded bg-gray-50 mb-4">
         <%= item_form.collection_select :product_id, Product.all, :id, :name,
             { prompt: "Seleccionar producto" },
             class: "border rounded p-2 w-full",
             data: { action: "change->item-sales#updatePrice" } %>
         <% item_form.object.errors[:product].each do |msg| %>
-          <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
         <% end %>
 
         <%= item_form.number_field :quantity, min: 1, placeholder: "Cantidad",
             class: "border rounded p-2 w-full mt-2" %>
         <% item_form.object.errors[:quantity].each do |msg| %>
-          <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
         <% end %>
 
         <%= item_form.number_field :unit_price, step: 0.01, placeholder: "Precio unitario",
@@ -62,19 +62,18 @@
             readonly: true,
             data: { item_sales_target: "price" } %>
         <% item_form.object.errors[:unit_price].each do |msg| %>
-          <div class="text-red-500 text-sm mt-1"><%= msg %></div>
+        <div class="text-red-500 text-sm mt-1"><%= msg %></div>
         <% end %>
 
         <%= item_form.hidden_field :_destroy %>
-        <button type="button" data-action="item-sales#removeItem"
-                class="bg-red-600 text-white px-2 py-1 rounded mt-2">Eliminar</button>
-      </div>
+        <button type="button" data-action="item-sales#removeItem" class="bg-red-600 text-white px-2 py-1 rounded mt-2">Eliminar</button>
+    </div>
     <% end %>
-  </div>
+</div>
 
-  <div id="item-template" data-item-sales-target="template" class="hidden">
+<div id="item-template" data-item-sales-target="template" class="hidden">
     <%= form.fields_for :item_sales, ItemSale.new, child_index: "NEW_RECORD" do |item_form| %>
-      <div class="nested-fields border p-4 rounded bg-gray-100 mb-4">
+    <div class="nested-fields border p-4 rounded bg-gray-100 mb-4">
         <%= item_form.collection_select :product_id, Product.all, :id, :name,
             { prompt: "Seleccionar producto" },
             class: "border rounded p-2 w-full",
@@ -89,16 +88,14 @@
             data: { item_sales_target: "price" } %>
 
         <%= item_form.hidden_field :_destroy %>
-        <button type="button" data-action="item-sales#removeItem"
-                class="bg-red-600 text-white px-2 py-1 rounded mt-2">Eliminar</button>
-      </div>
+        <button type="button" data-action="item-sales#removeItem" class="bg-red-600 text-white px-2 py-1 rounded mt-2">Eliminar</button>
+    </div>
     <% end %>
-  </div>
+</div>
 
-  <button type="button" data-action="item-sales#addItem"
-          class="bg-blue-600 text-white px-3 py-2 rounded mt-4">Agregar producto</button>
+<button type="button" data-action="item-sales#addItem" class="bg-blue-600 text-white px-3 py-2 rounded mt-4">Agregar producto</button>
 
-  <div class="inline">
+<div class="inline">
     <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-  </div>
+</div>
 <% end %>

@@ -3,8 +3,8 @@ module ApplicationHelper
     link_to t(".new"), url, class: classes.presence || "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium"
   end
 
-  def save_button
-    button_tag t("actions.save"), class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer"
+  def save_button(classes: nil)
+    button_tag t("actions.save"), class: classes.presence || "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer"
   end
 
   def back_button(url)
