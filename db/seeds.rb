@@ -39,16 +39,6 @@ products = [
     product_category: regg,
     status: "recent"
   },
-  {
-    name: "Legalize It",
-    description: "Clásico de Peter Tosh",
-    author: "Peter Tosh",
-    price: 22,
-    year: 1976,
-    product_type: "vinyl",
-    product_category: regg,
-    status: "used"
-  },
 
   # --- ROCK (Rolling Stones / Queen / Pink Floyd) ---
   {
@@ -206,17 +196,29 @@ audio_samples.each do |product_name, file_name|
     puts "No se encontró: #{audio_path}"
   end
 
-  product = Product.find_by(name: "Survival")
+  # ====== IMÁGENES PARA PRODUCTOS ======
+Product.find_each do |product|
+  next if product.images.attached?
 
-  if product
-    Dir[Rails.root.join("db/seed/images/survival*")].each do |path|
-      product.images.attach(
-        io: File.open(path),
-        filename: File.basename(path),
-        content_type: Marcel::MimeType.for(Pathname.new(path))
-      )
+  folder_name = product.name.parameterize(separator: "_")
+  images_path = Rails.root.join("db/seed/images/#{folder_name}/*")
 
-      puts "Imagen #{File.basename(path)} agregada"
+  image_files = Dir[images_path]
+
+  if image_files.empty?
+    puts "No hay imágenes para #{product.name}"
+    next
+  end
+
+  image_files.each do |path|
+    product.images.attach(
+      io: File.open(path),
+      filename: File.basename(path),
+      content_type: Marcel::MimeType.for(Pathname.new(path))
+    )
+
+    puts "Imagen #{File.basename(path)} agregada a #{product.name}"
     end
   end
+
 end
