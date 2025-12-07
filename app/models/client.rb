@@ -1,13 +1,14 @@
 class Client < ApplicationRecord
-  # Otra cosa que se me olvido de pasar cuando se me corrompio el archivo
-  has_many :sales
+  has_many :sales, dependent: :nullify
 
-  validates :name, :dni, presence: true
-  # Mensages personalizados para las validaciones
+  validates :name, presence: true
   validates :dni,
-            numericality: { only_integer: true, message: "El DNI debe ser solo numérico" },
-            uniqueness: { message: "Este DNI ya está registrado" }
+            presence: true,
+            numericality: { only_integer: true,
+                            message: I18n.t("activerecord.errors.models.client.attributes.dni.not_a_number") },
+            uniqueness: { message: I18n.t("activerecord.errors.models.client.attributes.dni.taken") }
   validates :email,
-            format: { with: URI::MailTo::EMAIL_REGEXP, message: "El formato del email no es válido" },
+            format: { with: URI::MailTo::EMAIL_REGEXP,
+                      message: I18n.t("activerecord.errors.models.client.attributes.email.invalid") },
             allow_blank: true
 end

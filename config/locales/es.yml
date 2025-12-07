@@ -52,29 +52,31 @@ es:
       models:
         sale:
           attributes:
-            item_sales:
-              must_have_at_least_one_item_sale: "Debe agregar al menos un ítem de venta"
-              invalid: "no son válidos"
+            base:
+              must_have_items: "La venta debe tener al menos un producto"
+              not_enough_stock: "No hay suficiente stock para %{product}"
 
         item_sale:
           attributes:
             product:
-              blank: "es obligatorio"
-              product_not_selected: "debe seleccionar un producto"
+              blank: "no puede estar vacío"
             quantity:
-              blank: "es obligatorio"
+              blank: "no puede estar vacío"
               not_a_number: "debe ser un número"
               greater_than: "debe ser mayor que %{count}"
-              not_enough_stock: "no hay suficiente stock disponible"
+              exceeds_stock: "no puede superar el stock disponible (%{stock})"
             unit_price:
-              blank: "es obligatorio"
+              blank: "no puede estar vacío"
               not_a_number: "debe ser un número"
               greater_than_or_equal_to: "debe ser mayor o igual que %{count}"
 
         client:
           attributes:
             dni:
-              not_a_number: "debe ser solo numérico"
+              not_a_number: "El DNI debe ser solo numérico"
+              taken: "Este DNI ya está registrado"
+            email:
+              invalid: "El formato del email no es válido"
 
   errors:
     messages:
@@ -112,6 +114,13 @@ es:
         title: "Crear usuario"
       edit:
         title: "Editar usuario"
+    
+    sales:
+      index:
+        title: "Listado de ventas"
+        new: "Registrar venta"
+      show:
+        title: "Detalle de la venta"
 
   actions:
     show: "Ver"

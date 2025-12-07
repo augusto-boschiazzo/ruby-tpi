@@ -1,26 +1,47 @@
-<h1 class="text-2xl font-bold mb-4">Ventas por empleado</h1>
+<% content_for :title, "Ventas por empleado" %>
 
-<table class="min-w-full bg-white border border-gray-200 rounded-md overflow-hidden mb-6">
-  <thead class="bg-gray-100">
-    <tr>
-      <th class="px-4 py-2 text-left">Empleado</th>
-      <th class="px-4 py-2 text-left">Cantidad de ventas</th>
-      <th class="px-4 py-2 text-left">Total facturado</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @sales_by_user.each do |name, total| %>
-      <tr class="border-t">
-        <td class="px-4 py-2"><%= name %></td>
-        <td class="px-4 py-2"><%= @count_by_user[name] %></td>
-        <td class="px-4 py-2"><%= number_to_currency(total) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<section class="w-full px-6 py-10">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6">
+    <header class="flex flex-col gap-2 border-b border-slate-200 pb-4">
+      <p class="text-xs uppercase tracking-[0.35em] text-slate-500">Administración</p>
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-semibold text-slate-900">Ventas por empleado</h1>
+        <p class="text-sm text-slate-500">Visualizá la cantidad de ventas y el total facturado por cada vendedor.</p>
+      </div>
+    </header>
 
-<div class="w-full">
-  <%= bar_chart @sales_by_user, xtitle: "Empleado", ytitle: "Total facturado" %>
-</div>
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div class="scrollbar-thin overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+          <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-widest text-slate-500">
+            <tr>
+              <th class="px-6 py-3">Empleado</th>
+              <th class="px-6 py-3">Cantidad de ventas</th>
+              <th class="px-6 py-3">Total facturado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 bg-white">
+            <% @sales_by_user.each do |name, total| %>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4 font-medium text-slate-900"><%= name %></td>
+                <td class="px-6 py-4 text-slate-700"><%= @count_by_user[name] %></td>
+                <td class="px-6 py-4 font-medium text-slate-900"><%= number_to_currency(total) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">Visualización</h2>
+      <%= bar_chart @sales_by_user,
+            xtitle: "Empleado",
+            ytitle: "Total facturado",
+            library: { backgroundColor: "transparent" } %>
+    </div>
+  </div>
+</section>
+
 
 

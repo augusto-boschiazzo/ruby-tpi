@@ -1,0 +1,19 @@
+<div class="flex flex-wrap items-center gap-3">
+  <%= link_to "Volver al listado", admin_sales_path,
+              class: "rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100" %>
+
+  <% if sale.cancelled_at.blank? %>
+    <%= button_to "Cancelar venta",
+                  cancel_admin_sale_path(sale),
+                  method: :patch,
+                  form_class: "inline-block",
+                  class: "rounded-full border border-yellow-600 bg-yellow-500 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-400",
+                  data: { turbo_confirm: "¿Estás seguro que querés cancelar esta venta? Esto restaurará el stock." } %>
+
+    <%= link_to "Descargar factura (PDF)",
+                invoice_admin_sale_path(sale, format: :pdf),
+                class: "rounded-full bg-(--accent) px-4 py-2 text-sm font-semibold text-white shadow transition hover:brightness-110" %>
+  <% else %>
+    <span class="inline-block rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">Venta cancelada</span>
+  <% end %>
+</div>
