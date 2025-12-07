@@ -196,7 +196,7 @@ audio_samples.each do |product_name, file_name|
     puts "No se encontró: #{audio_path}"
   end
 
-  # ====== IMÁGENES PARA PRODUCTOS ======
+# ====== IMÁGENES PARA PRODUCTOS ======
 Product.find_each do |product|
   next if product.images.attached?
 
@@ -220,5 +220,70 @@ Product.find_each do |product|
     puts "Imagen #{File.basename(path)} agregada a #{product.name}"
     end
   end
+end
 
+clients = [
+  { name: "Ana Martínez", dni: "11111111", email: "ana@example.com" },
+  { name: "Carlos Gómez", dni: "22222222", email: "carlos@example.com" },
+  { name: "Lucía Fernández", dni: "33333333", email: "lucia@example.com" }
+]
+clients.each do |attrs|
+  Client.find_or_create_by!(dni: attrs[:dni]) do |c|
+    c.name  = attrs[:name]
+    c.email = attrs[:email]
+  end
+end
+
+demo_category = ProductCategory.find_or_create_by!(name: "Demo")
+demo_products = [
+  { name: "Producto Demo A", price: 10, stock: 50, product_type: "cd", product_category: demo_category, status: "recent" },
+  { name: "Producto Demo B", price: 20, stock: 30, product_type: "vinyl", product_category: demo_category, status: "recent" },
+  { name: "Producto Demo C", price: 15, stock: 40, product_type: "cd", product_category: demo_category, status: "used" }
+]
+demo_products.each do |attrs|
+  Product.find_or_create_by!(name: attrs[:name]) do |p|
+    p.price            = attrs[:price]
+    p.stock            = attrs[:stock]
+    p.product_type     = attrs[:product_type]
+    p.product_category = attrs[:product_category]
+    p.status           = attrs[:status]
+  end
+end
+
+admin    = User.find_by(role: :admin)
+manager  = User.find_by(role: :manager)
+employee = User.find_by(role: :employee)
+
+Sale.find_or_create_by!(client: Client.find_by(dni: "11111111"), sold_at: Date.today, user: admin) do |sale|
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo A"), quantity: 2, unit_price: 10)
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo B"), quantity: 1, unit_price: 20)
+  sale.total_amount = sale.item_sales.sum(&:subtotal)
+end
+
+cancelled_sale = Sale.find_or_create_by!(client: Client.find_by(dni: "22222222"), sold_at: Date.today - 1, user: manager) do |sale|
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo B"), quantity: 3, unit_price: 20)
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo C"), quantity: 1, unit_price: 15)
+  sale.total_amount = sale.item_sales.sum(&:subtotal)
+end
+cancelled_sale.update!(cancelled_at: Time.current)
+
+Sale.find_or_create_by!(client: Client.find_by(dni: "33333333"), sold_at: Date.today - 2, user: employee) do |sale|
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo A"), quantity: 5, unit_price: 10)
+  sale.total_amount = sale.item_sales.sum(&:subtotal)
+end
+
+Sale.find_or_create_by!(client: Client.find_by(dni: "11111111"), sold_at: Date.today - 30, user: admin) do |sale|
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo C"), quantity: 2, unit_price: 15)
+  sale.total_amount = sale.item_sales.sum(&:subtotal)
+end
+
+Sale.find_or_create_by!(client: Client.find_by(dni: "22222222"), sold_at: Date.today - 60, user: manager) do |sale|
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo A"), quantity: 1, unit_price: 10)
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo B"), quantity: 2, unit_price: 20)
+  sale.total_amount = sale.item_sales.sum(&:subtotal)
+end
+
+Sale.find_or_create_by!(client: Client.find_by(dni: "33333333"), sold_at: Date.today - 90, user: employee) do |sale|
+  sale.item_sales.build(product: Product.find_by(name: "Producto Demo B"), quantity: 4, unit_price: 20)
+  sale.total_amount = sale.item_sales.sum(&:subtotal)
 end
