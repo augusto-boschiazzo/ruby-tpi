@@ -1,10 +1,93 @@
 <% content_for :title, "Nueva venta" %>
 
-<div class="md:w-2/3 w-full items-center mx-auto space-y-6 py-8">
-    <h1 class="text-3xl font-bold mb-4">Registrar nueva venta</h1>
+<section class="w-full px-6 py-10">
+  <div class="mx-auto flex max-w-4xl flex-col gap-6">
+    <header class="flex flex-col gap-2 border-b border-slate-200 pb-4">
+      <p class="text-xs uppercase tracking-[0.35em] text-slate-500">Administración</p>
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-semibold text-slate-900">Registrar nueva venta</h1>
+        <%= link_to "Volver al listado", admin_sales_path,
+              class: "rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100" %>
+      </div>
+    </header>
 
-    <%= render "form", sale: @sale %>
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm p-6 space-y-6">
+      <%= form_with(model: [:admin, @sale], class: "contents", data: { controller: "item-sales" }) do |form| %>
 
-    <%= link_to "Volver al listado", admin_sales_path,
-      class: "inline-block mt-4 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 font-medium" %>
-</div>
+        <% if @sale.errors[:base].any? %>
+          <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md">
+            <h2><%= pluralize(@sale.errors[:base].count, "error") %> impidieron guardar la venta:</h2>
+            <ul class="list-disc ml-6">
+              <% @sale.errors[:base].each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900 mb-3">Datos del cliente</h2>
+          <%= form.fields_for :client do |fc| %>
+            <div class="flex flex-col gap-4">
+              <div>
+                <%= fc.label :name, "Nombre", class: "text-sm font-medium text-slate-700" %>
+                <%= fc.text_field :name,
+                      class: "w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 shadow-sm focus:border-(--accent) focus:ring-2 focus:ring-(--accent)/40 mt-1" %>
+                <%= field_errors(fc.object, :name) %>
+              </div>
+
+              <div>
+                <%= fc.label :dni, "DNI", class: "text-sm font-medium text-slate-700" %>
+                <%= fc.text_field :dni,
+                      class: "w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 shadow-sm focus:border-(--accent) focus:ring-2 focus:ring-(--accent)/40 mt-1" %>
+                <%= field_errors(fc.object, :dni) %>
+              </div>
+
+              <div>
+                <%= fc.label :email, "Email", class: "text-sm font-medium text-slate-700" %>
+                <%= fc.email_field :email,
+                      class: "w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 shadow-sm focus:border-(--accent) focus:ring-2 focus:ring-(--accent)/40 mt-1" %>
+                <%= field_errors(fc.object, :email) %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900 mb-3">Productos vendidos</h2>
+          <div data-item-sales-target="container" class="space-y-4">
+            <%= form.fields_for :item_sales do |item_form| %>
+              <%= render "back/sales/item_fields", f: item_form %>
+            <% end %>
+          </div>
+
+          <div id="item-template" data-item-sales-target="template" class="hidden">
+            <%= form.fields_for :item_sales, ItemSale.new, child_index: "NEW_RECORD" do |item_form| %>
+              <%= render "back/sales/item_fields", f: item_form %>
+            <% end %>
+          </div>
+
+          <button type="button"
+                  data-action="item-sales#addItem"
+                  class="mt-4 inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-500">
+            Agregar producto
+          </button>
+        </div>
+
+        <div class="mt-6">
+          <label class="text-sm font-medium text-slate-700">Total de la venta</label>
+          <input type="text"
+                 readonly
+                 value="0.00"
+                 data-item-sales-target="total"
+                 class="w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-900 bg-slate-50 shadow-sm mt-1" />
+        </div>
+
+        <div class="mt-6">
+          <%= form.submit "Guardar venta",
+                class: "rounded-full bg-(--accent) px-6 py-2 text-sm font-semibold text-white shadow transition hover:brightness-110" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

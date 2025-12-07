@@ -14,12 +14,12 @@
     </thead>
     <tbody>
       <% @sale.item_sales.each do |item| %>
-      <tr>
-        <td><%= item.product.name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.unit_price) %></td>
-        <td><%= number_to_currency(item.quantity * item.unit_price) %></td>
-      </tr>
+        <tr>
+          <td><%= item.product&.name || "Producto eliminado" %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.unit_price) %></td>
+          <td><%= number_to_currency(item.subtotal) %></td>
+        </tr>
       <% end %>
     </tbody>
   </table>

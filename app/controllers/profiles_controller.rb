@@ -19,11 +19,11 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    permitted = [:name, :last_name, :email]
+    permitted = [ :name, :last_name, :email ]
 
     if params[:user].present?
       password = params[:user][:password]
-      permitted += [:password, :password_confirmation] if password.present?
+      permitted += [ :password, :password_confirmation ] if password.present?
     end
 
     params.require(:user).permit(permitted)

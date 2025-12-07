@@ -44,4 +44,12 @@ module ApplicationHelper
 
     render template: layout
   end
+
+  # Helper para mostrar errores
+  def field_errors(object, field)
+    return "" unless object.errors[field].any?
+    safe_join(object.errors[field].map do |msg|
+      content_tag(:div, msg, class: "text-red-500 text-sm mt-1")
+    end)
+  end
 end
