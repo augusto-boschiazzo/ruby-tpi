@@ -1,0 +1,12 @@
+<% content_for :title, "Showing product" %>
+
+<div class="md:w-2/3 w-full items-center mx-auto space-y-6 py-8">
+
+    <h1 class="font-bold text-4xl"><%= t('.title') %></h1>
+
+    <%= render @product %>
+
+    <%= edit_button(edit_admin_product_path(@product)) %>
+    <%= back_button(admin_products_path)%>
+    <%= destroy_form_button([:admin, @product]) %>
+</div>

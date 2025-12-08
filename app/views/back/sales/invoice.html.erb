@@ -1,0 +1,28 @@
+<div class="p-8">
+  <h1 class="text-2xl font-bold">Factura Nº <%= @sale.id %></h1>
+  <p>Cliente: <%= @sale.client.name %> (DNI: <%= @sale.client.dni %>)</p>
+  <p>Email: <%= @sale.client.email %></p>
+
+  <table class="table-auto w-full mt-4 border">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Producto</th>
+        <th class="px-4 py-2">Cantidad</th>
+        <th class="px-4 py-2">Precio unitario</th>
+        <th class="px-4 py-2">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sale.item_sales.each do |item| %>
+        <tr>
+          <td><%= item.product&.name || "Producto eliminado" %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.unit_price) %></td>
+          <td><%= number_to_currency(item.subtotal) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p class="mt-4 font-bold">Total: <%= number_to_currency(@sale.total_amount) %></p>
+</div>

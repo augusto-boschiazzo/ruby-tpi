@@ -1,0 +1,48 @@
+<section class="flex flex-col items-center justify-center w-full space-y-6 py-16">
+    <%= render(
+                    CarouselComponent.new(
+                        autoplay: true,
+                        interval: 4000,
+                        pause_on_hover: true,
+                        show_arrows: false,
+                        images: [
+                            { src: asset_path("carousel/image1.jpeg"), alt: "Vinilo", title: "Vinilos", description: "Comprá vinilos exclusivos", link: "/products?action=index&controller=storefront%2Fproducts&types[]=vinyl" },
+                            { src: asset_path("carousel/image2.jpeg"), alt: "CD", title: "CDs", description: "Explorá nuestra colección de CDs", link: "/products?action=index&controller=storefront%2Fproducts&types[]=cd" },
+                            { src: asset_path("carousel/image3.jpeg"), alt: "CDs usados", title: "Nuevos y usados", description: "Encontrá CDs y vinilos nuevos o usados", link: "/products?action=index&controller=storefront%2Fproducts&statuses[]=recent&statuses[]=used" }
+                        ]
+                    )
+                ) %>
+</section>
+
+<section class="w-full px-6 py-12">
+    <div class="mx-auto flex max-w-6xl flex-col gap-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.35em] text-slate-500">Destacados</p>
+                <h2 class="text-3xl font-semibold text-slate-900">Recomendados para vos</h2>
+            </div>
+        </div>
+
+        <% if @featured_products.present? %>
+        <%= render ProductCarouselComponent.new(
+                products: @featured_products,
+                title: nil,
+                subtitle: nil,
+                visible: 10,
+                card_size: :md,
+            ) %>
+        <% else %>
+        <div class="rounded-2xl border border-dashed border-slate-200 bg-white/60 p-6 text-center text-slate-500">
+            Aún no hay productos para mostrar.
+        </div>
+        <% end %>
+    </div>
+</section>
+
+<section class="flex flex-col w-screen h-screen items-center justify-center bg-(--accent) text-white gap-4 mt-8" id="acerca-de">
+
+    <h1 class="text-5xl font-bold mb-4">¿Querés comprar un disco?</h1>
+    <div class="text-xl max-w-2xl text-center bg-white p-20 rounded-2xl text-gray-800 shadow-lg">
+        <p>Acercate a una de nuestras sucursales para consultar la disponibilidad del producto!</p>
+    </div>
+</section>

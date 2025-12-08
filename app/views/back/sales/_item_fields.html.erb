@@ -1,0 +1,31 @@
+<div class="nested-fields border p-4 rounded bg-gray-50 mb-4">
+  <%= f.select :product_id,
+    options_for_select(
+      Product.all.map { |p| [p.name, p.id, { "data-price": p.price }] },
+      f.object.product_id
+    ),
+    { prompt: "Seleccionar producto" },
+    class: "border rounded p-2 w-full",
+    data: { action: "change->item-sales#updatePrice" } %>
+  <%= field_errors(f.object, :product) %>
+
+  <%= f.number_field :quantity,
+      min: 1,
+      value: (f.object.quantity || 1),
+      placeholder: "Cantidad",
+      class: "border rounded p-2 w-full mt-2",
+      data: { action: "input->item-sales#updateTotal" } %>
+  <%= field_errors(f.object, :quantity) %>
+
+  <%= f.number_field :unit_price, step: 0.01, placeholder: "Precio unitario",
+      class: "border rounded p-2 w-full mt-2",
+      readonly: true,
+      data: { item_sales_target: "price" } %>
+  <%= field_errors(f.object, :unit_price) %>
+
+  <%= f.hidden_field :_destroy %>
+  <button type="button" data-action="item-sales#removeItem"
+          class="bg-red-600 text-white px-2 py-1 rounded mt-2">
+    Eliminar
+  </button>
+</div>

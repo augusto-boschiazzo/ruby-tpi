@@ -1,0 +1,77 @@
+<% content_for :title, "Venta ##{ @sale.id }" %>
+
+<section class="w-full px-6 py-10">
+  <div class="mx-auto flex max-w-4xl flex-col gap-6">
+    <header class="flex flex-col gap-2 border-b border-slate-200 pb-4">
+      <p class="text-xs uppercase tracking-[0.35em] text-slate-500">Administración</p>
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-semibold text-slate-900">
+          Venta <span class="text-slate-500">#<%= @sale.id %></span>
+        </h1>
+        <%= link_to "Volver al listado", admin_sales_path,
+              class: "rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100" %>
+      </div>
+    </header>
+
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm p-6 space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <p class="text-sm text-slate-500">Fecha</p>
+          <p class="text-lg font-semibold text-slate-900">
+            <%= l(@sale.sold_at, format: :long) if @sale.sold_at %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm text-slate-500">Cliente</p>
+          <p class="text-lg font-semibold text-slate-900"><%= @sale.client&.name || "—" %></p>
+        </div>
+
+        <div>
+          <p class="text-sm text-slate-500">Vendedor</p>
+          <p class="text-lg font-semibold text-slate-900"><%= @sale.user&.name || "—" %></p>
+        </div>
+
+        <div>
+          <p class="text-sm text-slate-500">Estado</p>
+          <% if @sale.cancelled_at.present? %>
+            <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-red-600">
+              Cancelada
+            </span>
+          <% else %>
+            <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-green-600">
+              Activa
+            </span>
+          <% end %>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-slate-900 mb-3">Productos</h2>
+        <div class="space-y-2">
+          <% @sale.item_sales.each do |item| %>
+            <div class="flex justify-between items-center border rounded-xl px-4 py-3 bg-slate-50">
+              <div>
+                <p class="font-medium text-slate-900"><%= item.product&.name || "Producto eliminado" %></p>
+                <p class="text-sm text-slate-500">
+                  Precio unitario: <%= number_to_currency(item.unit_price) %> ·
+                  Cantidad: <%= item.quantity %>
+                </p>
+              </div>
+              <div class="text-right">
+                <p class="font-medium text-slate-900"><%= number_to_currency(item.subtotal) %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <p class="text-sm text-slate-500">Total</p>
+        <p class="text-2xl font-bold text-slate-900"><%= number_to_currency(@sale.total_amount) %></p>
+      </div>
+    </div>
+
+    <%= render "back/sales/sale_actions", sale: @sale %>
+  </div>
+</section>
