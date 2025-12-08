@@ -1,6 +1,6 @@
 class Storefront::ProductsController < ApplicationController
     def index
-        @products = Product.includes(:images_attachments)
+        @products = Product.includes(:cover_attachment, :images_attachments)
                        .where(deleted_at: nil)
                        .order(created_at: :desc)
 
@@ -49,7 +49,7 @@ class Storefront::ProductsController < ApplicationController
                .find(params[:id])
 
         @related_products = Product
-            .includes(:images_attachments)
+            .includes(:cover_attachment, :images_attachments)
             .where.not(id: @product.id)
             .where(deleted_at: nil)
             .where(

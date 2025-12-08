@@ -79,13 +79,17 @@
             data: { product_form_target: "audioInput"} %>
 
         <% if product.audio.attached? %>
-        <div class="mt-3">
-            <p class="text-sm text-gray-600">Audio actual:</p>
-            <audio controls class="mt-1 w-full rounded-md shadow">
-                <source src="<%= url_for(product.audio) %>" type="<%= product.audio.content_type %>">
-                Tu navegador no soporta la reproducción de audio.
-            </audio>
-        </div>
+            <div class="mt-3">
+                <p class="text-sm text-gray-600">Audio actual:</p>
+                <audio controls class="mt-1 w-full rounded-md shadow">
+                    <source src="<%= url_for(product.audio) %>" type="<%= product.audio.content_type %>">
+                    Tu navegador no soporta la reproducción de audio.
+                </audio>
+                <label>
+                    <%= form.check_box :remove_audio %>
+                    Eliminar audio
+                </label>
+            </div>
         <% end %>
     </div>
 
@@ -96,6 +100,21 @@
       data: { product_form_target: "stockInput"} 
       %>
     </div>
+</div>
+
+<div class="my-5">
+    <%= form.label :cover %>
+    <%= form.file_field :cover, 
+          direct_upload: true,
+          class: "block w-full mt-2 border border-gray-300 rounded-lg shadow-sm cursor-pointer focus:ring focus:ring-blue-500" %>
+
+    <% if product.cover.attached? %>
+        <div class="mt-3 grid grid-cols-3 gap-2">
+                <% if product.cover.persisted? %>
+                    <%= image_tag product.cover.variant(resize_to_limit: [150, 150]), class: "rounded-lg" %>
+                <% end %>
+        </div>
+    <% end %>
 </div>
 
 <div class="my-5">

@@ -2,8 +2,10 @@
             class: "block border rounded-lg p-4 shadow bg-white hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer" do %>
 
 <!-- Imagen principal / portada -->
-<% if product.images.attached? %>
-<%= image_tag(product.images.first, class: "w-full h-60 object-cover rounded-md") %>
+<% if product.cover.attached?  %>
+    <%= image_tag(product.cover, class: "w-full h-60 object-cover rounded-md") %>
+<% elsif product.images.attached? %>
+    <%= image_tag(product.images.first, class: "w-full h-60 object-cover rounded-md") %>
 <% else %>
 <div class="h-48 bg-gray-200 flex justify-center items-center text-gray-500 rounded-md">
     Sin imagen

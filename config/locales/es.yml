@@ -20,6 +20,7 @@ es:
         product_category_id: "Categoría"
         stock: "Stock"
         audio: "Audio"
+        cover: "Imágen portada"
         images: "Imágenes"
         recent: "Nuevo"
         used: "Usado"

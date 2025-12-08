@@ -238,7 +238,7 @@ demo_category = ProductCategory.find_or_create_by!(name: "Demo")
 demo_products = [
   { name: "Producto Demo A", price: 10, stock: 50, product_type: "cd", product_category: demo_category, status: "recent" },
   { name: "Producto Demo B", price: 20, stock: 30, product_type: "vinyl", product_category: demo_category, status: "recent" },
-  { name: "Producto Demo C", price: 15, stock: 40, product_type: "cd", product_category: demo_category, status: "used" }
+  { name: "Producto Demo C", price: 15, stock: 40, product_type: "cd", product_category: demo_category, status: "recent" }
 ]
 demo_products.each do |attrs|
   Product.find_or_create_by!(name: attrs[:name]) do |p|

@@ -66,7 +66,9 @@ class ProductCardComponent < ViewComponent::Base
   end
 
   def cover_image
+    return product.cover if product.respond_to?(:cover) && product.cover.attached?
     return product.images.first if product.respond_to?(:images) && product.images.attached?
+
     DEFAULT_PLACEHOLDER
   end
 

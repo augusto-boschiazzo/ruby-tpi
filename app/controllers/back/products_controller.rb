@@ -105,6 +105,8 @@ class Back::ProductsController < BackController
         :product_category_id,
         :status,
         :audio,
+        :remove_audio,
+        :cover,
         images: []
       )
     end
