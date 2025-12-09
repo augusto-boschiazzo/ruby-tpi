@@ -1,4 +1,5 @@
 class Back::ReportsController < BackController
+  before_action :authorize_report_access
   def sales_summary
     @sales_by_month = Sale.active.group_by_month(:sold_at, format: "%b %Y").count
     @amount_by_month = Sale.active.group_by_month(:sold_at, format: "%b %Y").sum(:total_amount)
@@ -21,5 +22,11 @@ class Back::ReportsController < BackController
     @count_by_user = Sale.active.joins(:user)
                          .group("users.name")
                          .count
+  end
+
+  private
+
+  def authorize_report_access
+    authorize :report, "#{action_name}?".to_sym
   end
 end
