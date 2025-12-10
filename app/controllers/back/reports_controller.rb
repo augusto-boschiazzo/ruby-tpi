@@ -16,12 +16,12 @@ class Back::ReportsController < BackController
 
   def sales_by_employee
     @sales_by_user = Sale.active.joins(:user)
-                         .group("users.name")
-                         .sum(:total_amount)
+                     .group("users.id", "users.name")
+                     .sum(:total_amount)
 
     @count_by_user = Sale.active.joins(:user)
-                         .group("users.name")
-                         .count
+                     .group("users.id", "users.name")
+                     .count
   end
 
   private

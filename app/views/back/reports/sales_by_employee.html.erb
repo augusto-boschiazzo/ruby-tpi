@@ -21,10 +21,10 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100 bg-white">
-            <% @sales_by_user.each do |name, total| %>
+            <% @sales_by_user.each do |(id,name), total| %>
               <tr class="hover:bg-slate-50">
                 <td class="px-6 py-4 font-medium text-slate-900"><%= name %></td>
-                <td class="px-6 py-4 text-slate-700"><%= @count_by_user[name] %></td>
+                <td class="px-6 py-4 text-slate-700"><%= @count_by_user[[id, name]] %></td>
                 <td class="px-6 py-4 font-medium text-slate-900"><%= number_to_currency(total) %></td>
               </tr>
             <% end %>
@@ -42,6 +42,3 @@
     </div>
   </div>
 </section>
-
-
-
