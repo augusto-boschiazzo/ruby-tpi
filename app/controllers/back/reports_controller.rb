@@ -8,20 +8,22 @@ class Back::ReportsController < BackController
   def top_products
     @top_products = ItemSale.joins(:product, :sale)
                             .merge(Sale.active)
-                            .group("products.name")
+                            .group("products.id", "products.name")
                             .sum(:quantity)
-                            .sort_by { |_name, qty| -qty }
+                            .sort_by { |_key, qty| -qty }
                             .first(10)
+
+    @top_products_chart = @top_products.map { |((id, name), qty)| [ name, qty ] }.to_h
   end
 
   def sales_by_employee
     @sales_by_user = Sale.active.joins(:user)
-                         .group("users.name")
-                         .sum(:total_amount)
+                     .group("users.id", "users.name")
+                     .sum(:total_amount)
 
     @count_by_user = Sale.active.joins(:user)
-                         .group("users.name")
-                         .count
+                     .group("users.id", "users.name")
+                     .count
   end
 
   private

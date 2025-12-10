@@ -20,7 +20,7 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100 bg-white">
-            <% @top_products.each do |name, qty| %>
+            <% @top_products.each do |(id, name), qty| %>
               <tr class="hover:bg-slate-50">
                 <td class="px-6 py-4 font-medium text-slate-900"><%= name %></td>
                 <td class="px-6 py-4 text-slate-700"><%= qty %></td>
@@ -33,7 +33,7 @@
 
     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
       <h2 class="text-lg font-semibold text-slate-900 mb-4">Distribución de ventas</h2>
-      <%= pie_chart @top_products,
+      <%= pie_chart @top_products_chart,
             donut: true,
             legend: true,
             library: { backgroundColor: "transparent" } %>
