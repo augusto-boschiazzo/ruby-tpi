@@ -14,7 +14,7 @@ class Product < ApplicationRecord
   enum :status, [ :recent, :used ]
   enum :product_type, [ :vinyl, :cd ]
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
   validates :stock,
             numericality: { greater_than_or_equal_to: 0 },
             presence: true,
@@ -28,10 +28,11 @@ class Product < ApplicationRecord
   before_validation :normalize_stock
   before_destroy :reset_stock
 
+  after_save :purge_cover_if_requested
   after_save :purge_audio_if_requested
+  after_save :purge_images_if_requested
 
-  attr_accessor :remove_audio
-
+  attr_accessor :remove_audio, :remove_cover, :remove_images
 
   private
 
@@ -64,5 +65,16 @@ class Product < ApplicationRecord
 
   def purge_audio_if_requested
     audio.purge if remove_audio == "1"
+  end
+
+  def purge_cover_if_requested
+      cover.purge if remove_cover == "1"
+  end
+
+  def purge_images_if_requested
+    return if remove_images.blank?
+
+    images_to_remove = images.attachments.select { |a| remove_images.map(&:to_s).include?(a.id.to_s) }
+    images_to_remove.each(&:purge)
   end
 end
