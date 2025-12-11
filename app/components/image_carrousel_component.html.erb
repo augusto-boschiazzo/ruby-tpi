@@ -2,8 +2,10 @@
   <div class="relative w-full">
 
     <!-- Imagen -->
-    <%= image_tag @images[@current_index],
+    <% if @images[@current_index].present? %>
+      <%= image_tag @images[@current_index],
       class: "w-full h-[500px] object-cover rounded-xl shadow" %>
+    <% end %>
 
     <% if @images.size > 1 %>
 
