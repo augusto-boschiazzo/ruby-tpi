@@ -14,6 +14,57 @@ class Product < ApplicationRecord
   enum :status, [ :recent, :used ]
   enum :product_type, [ :vinyl, :cd ]
 
+  scope :available, -> { 
+    includes(:cover_attachment, :images_attachments)
+    .where(deleted_at: nil)
+    .order(created_at: :desc)
+  }
+
+  scope :filter_by_category, ->(category_ids) {
+    where(product_category_id: category_ids) if category_ids.present?
+  }
+
+  scope :filter_by_type, ->(types) {
+    where(product_type: types) if types.present?
+  }
+
+  scope :filter_by_status, ->(statuses) {
+    where(status: statuses) if statuses.present?
+  }
+  
+  scope :search_query, ->(query) {
+    return all if query.blank?
+
+    words = query.downcase.split
+    scope = all
+    words.each do |word|
+      scope = scope.where("LOWER(name) LIKE :q OR LOWER(author) LIKE :q", q: "%#{word}%")
+    end
+    scope
+  }
+
+  scope :filter_by_year_range, ->(from, to) {
+    if from.present? && to.present?
+      where(year: from..to)
+    elsif from.present?
+      where("year >= ?", from)
+    elsif to.present?
+      where("year <= ?", to)
+    else
+      all
+    end
+  }
+
+  scope :related_to, ->(product) {
+  where.not(id: product.id)
+    .where(
+      "product_category_id = :cat OR product_type = :type OR author = :author",
+      cat: product.product_category_id,
+      type: product.product_type,
+      author: product.author
+    )
+  }
+
   validates :name, presence: true, uniqueness: true
   validates :stock,
             numericality: { greater_than_or_equal_to: 0 },
