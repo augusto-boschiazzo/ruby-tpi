@@ -51,8 +51,8 @@ class Back::ProductsController < BackController
 
     respond_to do |format|
       if @product.save
-  format.html { redirect_to admin_product_path(@product), notice: "Product was successfully created." }
-  format.json { render :show, status: :created, location: admin_product_path(@product) }
+        format.html { redirect_to admin_product_path(@product), notice: "Product was successfully created." }
+        format.json { render :show, status: :created, location: admin_product_path(@product) }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -64,10 +64,14 @@ class Back::ProductsController < BackController
   def update
     authorize @product
 
+    if params[:product][:images].present?
+      @product.images.attach(params[:product][:images])
+    end
+
     respond_to do |format|
-      if @product.update(product_params)
-  format.html { redirect_to admin_product_path(@product), notice: "Product was successfully updated.", status: :see_other }
-  format.json { render :show, status: :ok, location: admin_product_path(@product) }
+      if @product.update(product_params.except(:images))
+        format.html { redirect_to admin_product_path(@product), notice: "Product was successfully updated.", status: :see_other }
+        format.json { render :show, status: :ok, location: admin_product_path(@product) }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -82,7 +86,7 @@ class Back::ProductsController < BackController
     @product.destroy!
 
     respond_to do |format|
-  format.html { redirect_to admin_products_path, notice: "Product was successfully destroyed.", status: :see_other }
+      format.html { redirect_to admin_products_path, notice: "Product was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -95,6 +99,11 @@ class Back::ProductsController < BackController
 
     # Only allow a list of trusted parameters through.
     def product_params
+      clean_images_param = params[:product][:images]
+      if clean_images_param.is_a?(Array) && clean_images_param.all?(&:blank?)
+        params[:product][:images] = nil
+      end
+
       params.require(:product).permit(
         :name,
         :description,
@@ -107,7 +116,9 @@ class Back::ProductsController < BackController
         :audio,
         :remove_audio,
         :cover,
-        images: []
+        :remove_cover,
+        images: [],
+        remove_images: []
       )
     end
 end

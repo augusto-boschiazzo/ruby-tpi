@@ -1,9 +1,19 @@
 # app/components/image_carrousel_component.rb
 class ImageCarrouselComponent < ViewComponent::Base
-  def initialize(images:, current_index: 0, product:)
-    @images = images
+  def initialize(cover:, images:, current_index: 0, product:)
+    @images = []
+    @images << cover if cover.attached?
+    @images.concat(images.to_a) if images.attached?
     @current_index = current_index.to_i
     @product = product
+  end
+
+  def images
+    @images
+  end
+
+  def current_index
+    @current_index
   end
 
   def total

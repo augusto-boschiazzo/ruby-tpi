@@ -11,7 +11,7 @@ class Storefront::ProductsController < ApplicationController
 
     def show
         @product = Product
-               .includes(:images_attachments, :audio_attachment)
+               .includes(:cover_attachment, :images_attachments, :audio_attachment)
                .find(params[:id])
 
         @related_products = @related_products = Product
